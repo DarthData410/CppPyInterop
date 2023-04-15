@@ -2,7 +2,7 @@
 By: J. Brandon George | darth.data410@gmail.com | twitter: @PyFryDay | medium.com: https://darth-data410.medium.com/ | youtube: https://www.youtube.com/@pyfryday
 
 # Details:
-Interop Examples of Embedding Python within C++, using Python.h only. This includes using vscode as IDE choice on ubunutu (linux). The contents of this project represent work used in medium.com articles for creating how-tos and training materials.
+Interop Examples of Embedding Python within C++, using Python.h only. This includes using vscode as IDE choice on ubunutu (linux). The contents of this project represent work used in medium.com articles for creating how-tos and training materials. Medium.com articles for each section will be linked as pubslihed.
 
 # numpy_pyplot - cpynumplot
 Within this section of the repo is a vscode IDE targeted project, focused on Pythons numpy and matplotlib modules. The main command line tool to showcase Python being embedded within C++ is called 'cpynumplot'. You may need to adjust the .vscode folder, tasks.json file for YOUR Python implementation. 
