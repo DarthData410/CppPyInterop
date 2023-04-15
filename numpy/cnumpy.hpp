@@ -45,18 +45,15 @@ using namespace std;
 
 namespace cnp {
     
-    /// @brief
-    /// C++ call to Python numpy.cos(x). Building a list python object and passing for operation. Works with 
+    /// @brief C++ call to Python numpy.cos(x). Building a list python object and passing for operation. Works with 
     /// numpy.ndarray size and item values for converting back to vector of type floats being consine of passed in values.  
     /// Showcasing interop between C++ <-> Python using Python.h.
     ///
     /// Example: 
-    ///  vector<double> ncosvret = cnp::cos(invec<double>);
+    ///  vector<double> ncosvret = cnp::cos(inFVec<double>);
     ///
     /// @param inFVec: Vector of double values, used to convert to numpy.ndarray for operating on.
-    ///
     /// @return Vector<double> values calculated as cosine values from inFVec values, returned from Python, numpy.cos(x)
-    ///
     vector<double> cos(vector<double> inFVec)
     {
         vector<double> ret;
