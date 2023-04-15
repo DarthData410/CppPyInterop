@@ -1,13 +1,39 @@
 // file: cnumpy.cpp
 // author: J. Brandon George | darth.data410@gmail.com | @pyfryday
 // contents used for testing against C++ <-> Python interop, using Python.h from within C++ apps.
-
 #include "cnumpy.hpp"
 
-static void excos(string _ivals) {
-    vector<double> invals;
-    cout << _ivals << endl;
+/// @brief Converts a string of doubles, checking for separator, and converts to a vector of doubles
+/// @param _s string value of doubles with separator
+/// @return vector of doubles used with python numpy function calls
+static vector<double> getDvectorFrStr(string const& _s)
+{
+    // separator replacements:
+    replace(_s.begin(),_s.end(),',',' ');
+    replace(_s.begin(),_s.end(),'|',' ');
+    
+    // beging reading stream and iterating through for double values:
+    istringstream iss(_s);
+    return vector<double>{ 
+        istream_iterator<double>(iss),
+        istream_iterator<double>()
+    };
+}
+
+/// @brief part of static C++ ex* function calls that map to numpy python interop functions. retrieves cosine value of passed in vector of doubles
+/// @param _ivals string representing double(s) as 1.0,1.1 or 1.0|1.1, seeking consine values.
+/// @return string [d.d,*] of double values, representing cosine of _ivals.
+static string excos(string _ivals) {
+    string ret = "[";
+    vector<double> invals = getDvectorFrStr(_ivals);
     vector<double> cosvals = cnp::cos(invals);
+    for(double d : cosvals) {
+        ret += to_string(d);
+        ret += ",";
+    }
+    ret = ret.substr(0,ret.size()-1);
+    ret += "]";
+    return ret;
 }
 
 int main(int argc, char *argv[])
@@ -21,8 +47,12 @@ int main(int argc, char *argv[])
     string func = argv[1];
     if(func=="--cos") {
         string vals = argv[2];
-        excos(vals);
+        string cosvals = excos(vals);
+        cout << "\n----- cnumpy -----" << endl;
+        cout << " function: numpy.cos(x)" << endl;
+        cout << " in-values: " << vals << endl;
+        cout << " cos-values: " << cosvals << endl;
     }
-    
+       
     return 0;
 }

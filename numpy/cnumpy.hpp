@@ -4,6 +4,10 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
+#include <iterator>
+#include <sstream>
+#include <algorithm>
 #define PY_SSIZE_T_CLEAN
 #include <python3.10/Python.h>
 
