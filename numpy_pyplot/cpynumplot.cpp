@@ -41,7 +41,8 @@
 //    stored in a different NDarray. Calls pyplot to plot(x,y) and show(). 
 //    
 //    Examples:
-//    
+//    (Example_1): ./cpynumplot --pyplot 1 11 0.2 - Plot saved: ../numpy_pyplot/saved_plots/Example_1.png
+//    (Example_2): ./cpynumplot --pyplot 1 3*pi 0.48 - Plot saved: ../numpy_pyplot/saved_plots/Example_2.png
 // 
 // *****************************************************************************************************
 
