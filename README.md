@@ -20,9 +20,6 @@ The following section list usage information for ./cpynumplot:
     ./cpynumplot --cos 1.1,0.97,1.3,2.4879
 
     Output:
-    ----- cpynumplot -----
-    function: numpy.cos(x)
-    ----------------------
     in-values: 1.1,0.97,1.3,2.4879
     cos-values: (0.453596,0.565300,0.267499,-0.793844)
 
@@ -33,10 +30,7 @@ The following section list usage information for ./cpynumplot:
     Example:
     ./cpynumplot --pi
 
-    /Output:
-    /----- cpynumplot -----
-    function: numpy.pi
-    ------------------
+    Output:
     return: 3.141593 
 
  3. --pyplot:
@@ -47,6 +41,9 @@ The following section list usage information for ./cpynumplot:
     
     Examples:
     (Example_1): ./cpynumplot --pyplot 1 11 0.2 - Plot saved: <a href="https://github.com/DarthData410/CppPyInterop/blob/main/numpy_pyplot/saved_plots/Example_1.png?raw=true">../numpy_pyplot/saved_plots/Example_1.png</a>
+
     <img src="https://github.com/DarthData410/CppPyInterop/blob/main/numpy_pyplot/saved_plots/Example_1.png?raw=true">
+    
     (Example_2): ./cpynumplot --pyplot 1 3*pi 0.48 - Plot saved: <a href="https://github.com/DarthData410/CppPyInterop/blob/main/numpy_pyplot/saved_plots/Example_2.png?raw=true">../numpy_pyplot/saved_plots/Example_2.png</a>
+    
     <img src="https://github.com/DarthData410/CppPyInterop/blob/main/numpy_pyplot/saved_plots/Example_2.png?raw=true">
