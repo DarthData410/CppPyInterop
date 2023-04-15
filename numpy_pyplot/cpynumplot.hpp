@@ -13,7 +13,7 @@
 
 using namespace std;
 
-#define APP "cnumpy"
+#define APP "cpynumplot"
 
 // defines for py modules/functions/attributes:
 #define pyLIST "list"
