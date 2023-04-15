@@ -33,8 +33,8 @@ The following section list usage information for ./cpynumplot:
     Example:
     ./cpynumplot --pi
 
-    Output:
-    ----- cpynumplot -----
+    /Output:
+    /----- cpynumplot -----
     function: numpy.pi
     ------------------
     return: 3.141593 
