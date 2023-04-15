@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     }
 
     string func = argv[1];
-    cout << "----- cnumpy -----" << endl;
+    cout << "\n----- cnumpy -----" << endl;
     if(func=="--cos") {
         string vals = argv[2];
         string cosvals = excos(vals);
