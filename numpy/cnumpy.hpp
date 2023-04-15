@@ -16,18 +16,25 @@ using namespace std;
 // defines for py modules/functions/attributes:
 #define pyLIST "list"
 #define pyLIST_A "append"
+
+// numpy:
 #define NP "numpy"
 #define NPCOS "cos"
+#define NPPi "pi"
 #define NPSIN "sin"
 #define NPDOT "dot"
-#define NPARRAY "array"
+#define NPRAND "random"
+#define NPDIAG "diag"
+
+// NP.arrange:
+#define NPARNG "arange"
+
 // NP.ARRAY.*
+#define NPARRAY "array"
 #define NPARRAY_T "T"
 #define NPARRAY_SZ "size"
 #define NPARRAY_I "item"
 // END NP.ARRAY.*
-#define NPRAND "random"
-#define NPDIAG "diag"
 
 namespace cnp {
     
@@ -101,6 +108,21 @@ namespace cnp {
         Py_Finalize();
         PyMem_RawFree(program);
 
+        return ret;
+    }
+
+    /// @brief function that returns python, numpy.pi value
+    /// @return returns numpy.pi value
+    float pyPi() {
+        wchar_t *program = Py_DecodeLocale("cnp::pyPi", NULL);
+    
+        Py_SetProgramName(program);
+        Py_Initialize();
+        PyObject *np = PyImport_ImportModule(NP);
+        PyObject *pPi = PyObject_GetAttrString(np,NPPi);
+        float ret = PyFloat_AsDouble(pPi);
+        Py_Finalize();
+        PyMem_RawFree(program);
         return ret;
     }
 }

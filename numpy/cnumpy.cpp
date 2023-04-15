@@ -39,21 +39,27 @@ static string excos(string _ivals) {
 
 int main(int argc, char *argv[])
 {
-    if(argc<3) {
+    if(argc<2) {
 
         cerr << "expected usage: ./cnumpy --<function> <vals> ..." << endl;
         return 1;
     }
 
     string func = argv[1];
+    cout << "----- cnumpy -----" << endl;
     if(func=="--cos") {
         string vals = argv[2];
         string cosvals = excos(vals);
-        cout << "\n----- cnumpy -----" << endl;
         cout << " function: numpy.cos(x)" << endl;
         cout << " in-values: " << vals << endl;
         cout << " cos-values: " << cosvals << endl;
     }
+    else if(func=="--pi") {
+        string pret = to_string(cnp::pyPi());
+        cout << " function: numpy.pi" << endl;
+        cout << " return: " << pret << endl;
+    }
+    cout << endl;
        
     return 0;
 }
