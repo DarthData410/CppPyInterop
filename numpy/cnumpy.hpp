@@ -39,8 +39,7 @@ using namespace std;
 // END NP.ARRAY.*
 
 // matplotlib:
-#define MAT "matplotlib"
-#define MPLT "pyplot"
+#define MAT "matplotlib.pyplot"
 #define MPLOT "plot"
 #define MSHOW "show"
 
@@ -149,8 +148,49 @@ namespace cnp {
     /// @param step float value used for stepping between start & stop float values
     /// @return true is executed without error, false if executed with error. 
     bool pyPlot(float start, float stop, float step) {
-        bool ret = false;
+        bool ret = true;
         
+        PyObject *np = PyImport_ImportModule(NP);
+        PyObject *mat = PyImport_ImportModule(MAT);
+
+        PyObject *npArTup = PyTuple_New(3);
+        PyTuple_SetItem(npArTup,0,PyFloat_FromDouble(start));
+        PyTuple_SetItem(npArTup,1,PyFloat_FromDouble(stop));
+        PyTuple_SetItem(npArTup,2,PyFloat_FromDouble(step));
+        PyObject *npArAttr = PyObject_GetAttrString(np,NPARNG);
+        PyObject *npAr = PyObject_CallObject(npArAttr,npArTup);
+
+        PyObject *npSinTup = PyTuple_New(1);
+        PyTuple_SetItem(npSinTup,0,npAr);
+        PyObject *npSinAttr = PyObject_GetAttrString(np,NPSIN);
+        PyObject *npSin = PyObject_CallObject(npSinAttr,npSinTup);
+
+        PyObject *mPlotTup = PyTuple_New(2);
+        PyTuple_SetItem(mPlotTup,0,npAr);
+        PyTuple_SetItem(mPlotTup,1,npSin);
+        PyObject *mPlotAttr = PyObject_GetAttrString(mat,MPLOT);
+        PyObject *mPlot = PyObject_CallObject(mPlotAttr,mPlotTup);
+
+        PyObject *ET = PyTuple_New(0);
+        PyObject *mPlotShowAttr = PyObject_GetAttrString(mat,MSHOW);
+        PyObject *mPlotShow = PyObject_CallObject(mPlotShowAttr,ET);
+
+        // Py_CLEAR section:
+        Py_CLEAR(mPlotShow);
+        Py_CLEAR(mPlotShowAttr);
+        Py_CLEAR(ET);
+        Py_CLEAR(mPlot);
+        Py_CLEAR(mPlotAttr);
+        Py_CLEAR(mPlotTup);
+        Py_CLEAR(npSin);
+        Py_CLEAR(npSinAttr);
+        Py_CLEAR(npSinTup);
+        Py_CLEAR(npAr);
+        Py_CLEAR(npArAttr);
+        Py_CLEAR(npArTup);
+        Py_CLEAR(mat);
+        Py_CLEAR(np);
+
         return ret;
     }
 

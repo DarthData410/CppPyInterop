@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
 
     string func = argv[1];
     cout << "\n----- cnumpy -----" << endl;
+    
     if(func=="--cos") {
         string vals = argv[2];
         string cosvals = excos(vals);
@@ -64,6 +65,16 @@ int main(int argc, char *argv[])
         cout << " function: numpy.pi" << endl;
         cout << " return: " << pret << endl;
     }
+    else if(func=="--pyplot") {
+        float start = stof(argv[2]);
+        float stop = stof(argv[3]);
+        float step = stof(argv[4]);
+        if(cnp::pyPlot(start,stop,step)) {
+            cout << " function: cnumpy::cnp::pyPlot()" << endl;
+            cout << " rendered successful" << endl;
+        }
+    }
+    
     cout << endl;
 
     Py_Finalize();
