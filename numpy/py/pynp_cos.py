@@ -6,10 +6,11 @@
 import numpy as np
 
 inv = list()
-inv.append(1)
-inv.append(0.5)
+inv.append(1.25)
+inv.append(7.845)
 inv.append(1.1)
-inv.append(0.7)
+inv.append(0.54)
+inv.append(1.13)
 
 cosret = np.cos(np.array(inv))
 
@@ -17,4 +18,12 @@ print("in-values:")
 print(inv)
 print("cos-values:")
 print(cosret)
- 
+
+"""
+Expected output from above:
+
+in-values:
+[1.25, 7.845, 1.1, 0.54, 1.13]
+cos-values:
+[0.31532236 0.00898151 0.45359612 0.85770868 0.42665981]
+"""
