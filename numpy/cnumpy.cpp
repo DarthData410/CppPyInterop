@@ -12,28 +12,7 @@ int main(int argc, char *argv[])
     invals.push_back(1.1);
     invals.push_back(0.7);
     
-    vector<double> cosvals = cnp::cos(invals);
-
-    cout << "in-values: [";
-    cout << invals[0];
-    cout << ", ";
-    cout << invals[1];
-    cout << ", ";
-    cout << invals[2];
-    cout << ", ";
-    cout << invals[3];
-    cout << "]" << endl;
-
-    cout << "cos-values: [";
-    cout << cosvals[0];
-    cout << ", ";
-    cout << cosvals[1];
-    cout << ", ";
-    cout << cosvals[2];
-    cout << ", ";
-    cout << cosvals[3];
-    cout << "]" << endl;
-    
+    vector<double> cosvals = cnp::cos(invals);    
 
     return 0;
 }
