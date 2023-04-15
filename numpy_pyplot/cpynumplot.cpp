@@ -37,11 +37,33 @@ static string excos(string _ivals) {
     return ret;
 }
 
+/// @brief part of static C++ calls, used to parse passed in string for float value. if detects *pi will apply to value and return.
+/// @param _sr string representation of float. can include '*pi' and will apply cnp::pyPi() value. 
+/// @return returns converted string representation of float as float, with *pi applied if specified when passed in.
+static float pyplot_float(string _sr) {
+    bool upi = false;
+    string _spi = "*pi";
+    
+    size_t found=_sr.find(_spi);
+    if( found != std::string::npos) {
+        upi = true;
+        replace(_sr.begin(),_sr.end(),'*',' ');
+        replace(_sr.begin(),_sr.end(),'p',' ');
+        replace(_sr.begin(),_sr.end(),'i',' ');
+    }
+
+    float ret = stof(_sr);
+    if(upi) {
+        ret = ret * cnp::pyPi();
+    }
+    return ret;
+}
+
 int main(int argc, char *argv[])
 {
     if(argc<2) {
 
-        cerr << "expected usage: ./cnumpy --<function> <vals> ..." << endl;
+        cerr << "expected usage: ./cpynumplot --<function> <vals> ..." << endl;
         return 1;
     }
 
@@ -51,7 +73,7 @@ int main(int argc, char *argv[])
     Py_Initialize();
 
     string func = argv[1];
-    cout << "\n ----- cnumpy -----" << endl;
+    cout << "\n ----- cpynumplot -----" << endl;
     
     if(func=="--cos") {
         string vals = argv[2];
@@ -68,17 +90,22 @@ int main(int argc, char *argv[])
         cout << " return: " << pret << endl;
     }
     else if(func=="--pyplot") {
-        float start = stof(argv[2]);
-        float stop = stof(argv[3]);
-        float step = stof(argv[4]);
+        
+        string strstart = argv[2];
+        float start = pyplot_float(strstart);
+        string strstop = argv[3];
+        float stop = pyplot_float(strstop);
+        string strstep = argv[4];
+        float step = pyplot_float(strstep);
+        
         if(cnp::pyPlot(start,stop,step)) {
-            cout << " function: cnumpy::cnp::pyPlot()" << endl;
+            cout << " function: cnp::pyPlot() [mixed numpy-matplotlib.pyplot]" << endl;
             cout << " -------------------------------" << endl;
             cout << " values used for rendering plot:" << endl;
             cout << " ---------" << endl;
-            cout << " start: " << start << endl;
-            cout << " stop: " << stop << endl;
-            cout << " step: " << step << endl;
+            cout << " start: " << strstart << ", real: " << start << endl;
+            cout << " stop: " << strstop << ", real: " << stop << endl;
+            cout << " step: " << strstep << ", real: " << step << endl;
             cout << " rendered successful" << endl;
         }
     }
