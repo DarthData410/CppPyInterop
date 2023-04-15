@@ -45,6 +45,11 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    wchar_t *program = Py_DecodeLocale(APP, NULL);
+    
+    Py_SetProgramName(program);
+    Py_Initialize();
+
     string func = argv[1];
     cout << "\n----- cnumpy -----" << endl;
     if(func=="--cos") {
@@ -60,6 +65,9 @@ int main(int argc, char *argv[])
         cout << " return: " << pret << endl;
     }
     cout << endl;
+
+    Py_Finalize();
+    PyMem_RawFree(program);
        
     return 0;
 }

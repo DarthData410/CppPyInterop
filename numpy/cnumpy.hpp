@@ -13,6 +13,8 @@
 
 using namespace std;
 
+#define APP "cnumpy"
+
 // defines for py modules/functions/attributes:
 #define pyLIST "list"
 #define pyLIST_A "append"
@@ -54,10 +56,6 @@ namespace cnp {
     {
         vector<double> ret;
         
-        wchar_t *program = Py_DecodeLocale("cnp::cos", NULL);
-    
-        Py_SetProgramName(program);
-        Py_Initialize();
         PyObject *np = PyImport_ImportModule(NP);
         PyObject *plist = PyList_New(0);
         
@@ -67,6 +65,7 @@ namespace cnp {
             if(plac!=0) {
                 runtime_error("PyList_Append: failed to add C double/PyFloat_FromDouble.");
             }
+            Py_CLEAR(pf);
         }
 
         PyObject *pLTup = PyTuple_New(1);
@@ -103,10 +102,23 @@ namespace cnp {
                 double cosret = PyFloat_AsDouble(pcosret);
                 ret.push_back(cosret);
             }
+
+            Py_CLEAR(pcosret);
+            Py_CLEAR(pcosretAttr);
+            Py_CLEAR(pidx);
         }
 
-        Py_Finalize();
-        PyMem_RawFree(program);
+        // Py_CLEAR section:
+        Py_CLEAR(pItmTup);
+        Py_CLEAR(pNcosASize);
+        Py_CLEAR(pNcos);
+        Py_CLEAR(pNcosAttr);
+        Py_CLEAR(pNDArryTup);
+        Py_CLEAR(pNDArray);
+        Py_CLEAR(pNDArrayAttr);
+        Py_CLEAR(pLTup);
+        Py_CLEAR(plist);
+        Py_CLEAR(np);
 
         return ret;
     }
@@ -114,15 +126,14 @@ namespace cnp {
     /// @brief function that returns python, numpy.pi value
     /// @return returns numpy.pi value
     float pyPi() {
-        wchar_t *program = Py_DecodeLocale("cnp::pyPi", NULL);
-    
-        Py_SetProgramName(program);
-        Py_Initialize();
+        
         PyObject *np = PyImport_ImportModule(NP);
         PyObject *pPi = PyObject_GetAttrString(np,NPPi);
         float ret = PyFloat_AsDouble(pPi);
-        Py_Finalize();
-        PyMem_RawFree(program);
+        
+        // Py_CLEAR section:
+        Py_CLEAR(pPi);
+        Py_CLEAR(np);
         return ret;
     }
 }
