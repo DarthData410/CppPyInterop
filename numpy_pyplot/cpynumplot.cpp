@@ -2,7 +2,7 @@
 // author: J. Brandon George | darth.data410@gmail.com | @pyfryday
 // contents used for testing against C++ <-> Python interop, using Python.h from within C++ apps.
 
-#include "cnumpy.hpp"
+#include "cpynumplot.hpp"
 
 /// @brief Converts a string of doubles, checking for separator, and converts to a vector of doubles
 /// @param _s string value of doubles with separator
