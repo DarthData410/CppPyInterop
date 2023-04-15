@@ -40,7 +40,7 @@ using namespace std;
 
 namespace cnp {
     
-    /// Method Description:
+    /// @brief
     /// C++ call to Python numpy.cos(x). Building a list python object and passing for operation. Works with 
     /// numpy.ndarray size and item values for converting back to vector of type floats being consine of passed in values.  
     /// Showcasing interop between C++ <-> Python using Python.h.

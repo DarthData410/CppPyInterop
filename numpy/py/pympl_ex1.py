@@ -5,7 +5,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-x= np.arange(1,4*np.pi,0.1)
+x= np.arange(1,4*np.pi,0.2)
 print(x)
 y=np.sin(x)
 print(y)
