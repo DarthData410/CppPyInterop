@@ -27,7 +27,7 @@ static vector<double> getDvectorFrStr(string _s)
 static string excos(string _ivals) {
     string ret = "[";
     vector<double> invals = getDvectorFrStr(_ivals);
-    vector<double> cosvals = cnp::cos(invals);
+    vector<double> cosvals = cnp::pycos(invals);
     for(double d : cosvals) {
         ret += to_string(d);
         ret += ",";

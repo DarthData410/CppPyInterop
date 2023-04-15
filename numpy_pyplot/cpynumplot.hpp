@@ -50,11 +50,11 @@ namespace cnp {
     /// Showcasing interop between C++ <-> Python using Python.h.
     ///
     /// Example: 
-    ///  vector<double> ncosvret = cnp::cos(inFVec<double>);
+    ///  vector<double> ncosvret = cnp::pycos(inFVec<double>);
     ///
     /// @param inFVec: Vector of double values, used to convert to numpy.ndarray for operating on.
     /// @return Vector<double> values calculated as cosine values from inFVec values, returned from Python, numpy.cos(x)
-    vector<double> cos(vector<double> inFVec)
+    vector<double> pycos(vector<double> inFVec)
     {
         vector<double> ret;
         
