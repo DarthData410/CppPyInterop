@@ -57,12 +57,14 @@ int main(int argc, char *argv[])
         string vals = argv[2];
         string cosvals = excos(vals);
         cout << " function: numpy.cos(x)" << endl;
+        cout << " ----------------------" << endl;
         cout << " in-values: " << vals << endl;
         cout << " cos-values: " << cosvals << endl;
     }
     else if(func=="--pi") {
         string pret = to_string(cnp::pyPi());
         cout << " function: numpy.pi" << endl;
+        cout << " ------------------" << endl;
         cout << " return: " << pret << endl;
     }
     else if(func=="--pyplot") {
@@ -71,6 +73,12 @@ int main(int argc, char *argv[])
         float step = stof(argv[4]);
         if(cnp::pyPlot(start,stop,step)) {
             cout << " function: cnumpy::cnp::pyPlot()" << endl;
+            cout << " -------------------------------" << endl;
+            cout << " values used for rendering plot:" << endl;
+            cout << " ---------" << endl;
+            cout << " start: " << start << endl;
+            cout << " stop: " << stop << endl;
+            cout << " step: " << step << endl;
             cout << " rendered successful" << endl;
         }
     }
