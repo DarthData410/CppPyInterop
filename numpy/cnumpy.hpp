@@ -38,6 +38,12 @@ using namespace std;
 #define NPARRAY_I "item"
 // END NP.ARRAY.*
 
+// matplotlib:
+#define MAT "matplotlib"
+#define MPLT "pyplot"
+#define MPLOT "plot"
+#define MSHOW "show"
+
 namespace cnp {
     
     /// @brief
@@ -136,5 +142,17 @@ namespace cnp {
         Py_CLEAR(np);
         return ret;
     }
+
+    /// @brief Using Python modules numpy & matplotlib for plotting visually float values converted to NDaarays.
+    /// @param start float value for starting point
+    /// @param stop float value for stopping point
+    /// @param step float value used for stepping between start & stop float values
+    /// @return true is executed without error, false if executed with error. 
+    bool pyPlot(float start, float stop, float step) {
+        bool ret = false;
+        
+        return ret;
+    }
+
 }
 
