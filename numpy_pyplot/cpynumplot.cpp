@@ -1,6 +1,49 @@
 // file: cnumpy.cpp
 // author: J. Brandon George | darth.data410@gmail.com | @pyfryday
 // contents used for testing against C++ <-> Python interop, using Python.h from within C++ apps.
+// ------------------------------------------
+// Command line execution app used for interop between C++ -> Python. Enabled by Python.h header file
+// This command line app has the following commands, and usage:
+//
+// 1. --cos:
+//    Uses passed in string of doubles, calling Python module numpy, and creates an NDarray from
+//    doubles. Then calls numpy.cos(x) to deliver the cosine values for passed in doubles.
+//    This NDarray of cosine doubles is then converted to vector<double> in C++, and then iterated through
+//    to display in the command output in-values and cos-values back. 
+//    
+//    Example:
+//    ./cpynumplot --cos 1.1,0.97,1.3,2.4879
+//
+//    Output:
+//    ----- cpynumplot -----
+//    function: numpy.cos(x)
+//    ----------------------
+//    in-values: 1.1,0.97,1.3,2.4879
+//    cos-values: [0.453596,0.565300,0.267499,-0.793844]
+//
+// 2. --pi:
+//    Simple call, that will not operate upon any parameters. Simply loads Pythons numpy, and calls numpy.pi. 
+//    Converts from a PyObject value to a float. Using PyFloat_AsDouble(x) call.
+//
+//    Example:
+//    ./cpynumplot --pi
+//
+//    Output:
+//    ----- cpynumplot -----
+//    function: numpy.pi
+//    ------------------
+//    return: 3.141593 
+//
+// 3. --pyplot:
+//    Uses three parameters with call: start, stop & step values. Expects these to be floats. Can use *pi in
+//    order to adjust one-or-all three values by. Uses the values to load Python modules numpy and 
+//    matplotlib.pyplot. Generates NDarray values using start, stop and step. Then retrieves the sin(x) values
+//    stored in a different NDarray. Calls pyplot to plot(x,y) and show(). 
+//    
+//    Examples:
+//    
+// 
+// *****************************************************************************************************
 
 #include "cpynumplot.hpp"
 
@@ -11,7 +54,6 @@ static vector<double> getDvectorFrStr(string _s)
 {
     // separator replacements:
     replace(_s.begin(),_s.end(),',',' ');
-    replace(_s.begin(),_s.end(),'|',' ');
     
     // beging reading stream and iterating through for double values:
     istringstream is(_s);
@@ -22,7 +64,7 @@ static vector<double> getDvectorFrStr(string _s)
 }
 
 /// @brief part of static C++ ex* function calls that map to numpy python interop functions. retrieves cosine value of passed in vector of doubles
-/// @param _ivals string representing double(s) as 1.0,1.1 or 1.0|1.1, seeking consine values.
+/// @param _ivals string representing double(s) as 1.0,1.1 seeking consine values.
 /// @return string [d.d,*] of double values, representing cosine of _ivals.
 static string excos(string _ivals) {
     string ret = "[";
