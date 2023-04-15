@@ -21,7 +21,7 @@ The following section list usage information for ./cpynumplot:
 
     Output:
     in-values: 1.1,0.97,1.3,2.4879
-    cos-values: (0.453596,0.565300,0.267499,-0.793844)
+    cos-values: (0.453596,0.565300,0.267499,-0.793844) 
 
  2. --pi:
     Simple call, that will not operate upon any parameters. Simply loads Pythons numpy, and calls numpy.pi. 
