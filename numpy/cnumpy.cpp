@@ -4,15 +4,22 @@
 
 #include "cnumpy.hpp"
 
+static void excos(string _ivals) {
+    vector<double> invals;
+    cout << _ivals << endl;
+    vector<double> cosvals = cnp::cos(invals);
+}
+
 int main(int argc, char *argv[])
 {
-    vector<double> invals;
-    invals.push_back(1.0);
-    invals.push_back(0.5);
-    invals.push_back(1.1);
-    invals.push_back(0.7);
-    
-    vector<double> cosvals = cnp::cos(invals);    
+    if(argc<3) {
+        runtime_error("Incorrect usage. Expected ./cnumpy --<function> vals ...");
+        return 1;
+    }
 
+    if(argv[1]=="--cos") {
+        excos(argv[2]);
+    }
+    
     return 0;
 }
