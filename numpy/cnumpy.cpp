@@ -1,21 +1,22 @@
 // file: cnumpy.cpp
 // author: J. Brandon George | darth.data410@gmail.com | @pyfryday
 // contents used for testing against C++ <-> Python interop, using Python.h from within C++ apps.
+
 #include "cnumpy.hpp"
 
 /// @brief Converts a string of doubles, checking for separator, and converts to a vector of doubles
 /// @param _s string value of doubles with separator
 /// @return vector of doubles used with python numpy function calls
-static vector<double> getDvectorFrStr(string const& _s)
+static vector<double> getDvectorFrStr(string _s)
 {
     // separator replacements:
     replace(_s.begin(),_s.end(),',',' ');
     replace(_s.begin(),_s.end(),'|',' ');
     
     // beging reading stream and iterating through for double values:
-    istringstream iss(_s);
+    istringstream is(_s);
     return vector<double>{ 
-        istream_iterator<double>(iss),
+        istream_iterator<double>(is),
         istream_iterator<double>()
     };
 }

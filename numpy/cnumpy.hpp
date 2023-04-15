@@ -1,13 +1,13 @@
 // file: cnumpy.hpp
 // author: J. Brandon George | darth.data410@gmail.com | @pyfryday
 // contents used for testing against C++ <-> Python interop, using Python.h from within C++ apps.
-
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <string>
 #include <iterator>
 #include <sstream>
-#include <algorithm>
+
 #define PY_SSIZE_T_CLEAN
 #include <python3.10/Python.h>
 
