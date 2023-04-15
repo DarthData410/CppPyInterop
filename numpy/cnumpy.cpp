@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     Py_Initialize();
 
     string func = argv[1];
-    cout << "\n----- cnumpy -----" << endl;
+    cout << "\n ----- cnumpy -----" << endl;
     
     if(func=="--cos") {
         string vals = argv[2];
