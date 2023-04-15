@@ -13,12 +13,15 @@ static void excos(string _ivals) {
 int main(int argc, char *argv[])
 {
     if(argc<3) {
-        runtime_error("Incorrect usage. Expected ./cnumpy --<function> vals ...");
+
+        cerr << "expected usage: ./cnumpy --<function> <vals> ..." << endl;
         return 1;
     }
 
-    if(argv[1]=="--cos") {
-        excos(argv[2]);
+    string func = argv[1];
+    if(func=="--cos") {
+        string vals = argv[2];
+        excos(vals);
     }
     
     return 0;
