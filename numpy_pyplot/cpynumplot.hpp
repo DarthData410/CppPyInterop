@@ -22,6 +22,7 @@ using namespace std;
 #define NPCOS "cos"
 #define NPPi "pi"
 #define NPSIN "sin"
+#define NPTAN "tan"
 #define NPDOT "dot"
 #define NPDIAG "diag"
 
@@ -64,12 +65,13 @@ namespace cpy {
         return program;
     }
 
-    double cossin(double x,int t) {
+    double cossintan(double x,int t) {
         // switch on 0 = cos, 1 = sin
         const char* tbc;
         switch(t) {
             case 0: tbc = NPCOS; break;
             case 1: tbc = NPSIN; break;
+            case 2: tbc = NPTAN; break;
             default: return 0; break;
         }
         

@@ -9,6 +9,7 @@ from numpy import linalg as LA
 # part 1:
 x = np.random.random()
 z = np.cos(x)
+
 print(z)
 # End numpy.cos(x) examples from above.
 
