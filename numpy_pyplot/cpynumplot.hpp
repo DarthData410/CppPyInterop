@@ -244,14 +244,6 @@ namespace cpy {
 
     // **********************
     // start pycomplex section:
-    /*
-    PyObject *Pycomplex(double rel, double img) {
-        complex<double> cc;
-        cc.real(rel);
-        cc.imag(img);
-        return Pycomplex(cc);
-    }
-
     PyObject *Pycomplex(complex<double> cc) {
         Py_complex pc;
         pc.real = cc.real();
@@ -259,7 +251,7 @@ namespace cpy {
         PyObject *ret = PyComplex_FromCComplex(pc);
         return ret;
     }
-    */
+    
 
     complex<double> Py2Ccomplex(PyObject *pc) {
         complex<double> ret;
