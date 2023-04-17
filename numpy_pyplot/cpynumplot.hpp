@@ -64,22 +64,30 @@ namespace cpy {
         return program;
     }
 
-    double cos(double x) {
+    double cossin(double x,int t) {
+        // switch on 0 = cos, 1 = sin
+        const char* tbc;
+        switch(t) {
+            case 0: tbc = NPCOS; break;
+            case 1: tbc = NPSIN; break;
+            default: return 0; break;
+        }
+        
         double ret;
         PyObject *np = PyImport_ImportModule(NP);
-        PyObject *costp = PyTuple_New(1);
+        PyObject *tp = PyTuple_New(1);
         PyObject *pyx = PyFloat_FromDouble(x);
-        PyTuple_SetItem(costp,0,pyx);
-        PyObject *pNcosAttr = PyObject_GetAttrString(np,NPCOS);
-        PyObject *pNcos = PyObject_CallObject(pNcosAttr,costp);
+        PyTuple_SetItem(tp,0,pyx);
+        PyObject *pNAttr = PyObject_GetAttrString(np,tbc);
+        PyObject *pN = PyObject_CallObject(pNAttr,tp);
         
-        ret = PyFloat_AsDouble(pNcos);
+        ret = PyFloat_AsDouble(pN);
 
         // Py_CLEAR(s):
-        Py_CLEAR(pNcos);
-        Py_CLEAR(pNcosAttr);
+        Py_CLEAR(pN);
+        Py_CLEAR(pNAttr);
         Py_CLEAR(pyx);
-        Py_CLEAR(costp);
+        Py_CLEAR(tp);
         Py_CLEAR(np);
 
         return ret;

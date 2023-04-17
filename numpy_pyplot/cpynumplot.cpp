@@ -134,10 +134,10 @@ int main(int argc, char *argv[])
     if(func=="-cos") {
         string val = argv[2];
         float _f = pypi_float(val);
-        double retv = cpy::cos(_f);
+        double retv = cpy::cossin(_f,0);
         cout << " function: numpy.cos(x) [Single Value]" << endl;
         cout << " ----------------------" << endl;
-        cout << " in-value: " << val << ", real" << _f << endl;
+        cout << " in-value: " << val << ", real: " << _f << endl;
         cout << " cos-value: " << retv << endl;
     }
     else if(func=="-cosvec") {
