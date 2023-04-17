@@ -8,11 +8,6 @@ from numpy import linalg as LA
 
 # part 1:
 x = np.random.random()
-z = np.cos(x)
-
-print(z)
-# End numpy.cos(x) examples from above.
-
 Q = np.array([[np.cos(x), -np.sin(x)], [np.sin(x), np.cos(x)]])
 
 ret1 = LA.norm(Q[0, :]), LA.norm(Q[1, :]), np.dot(Q[0, :],Q[1, :])

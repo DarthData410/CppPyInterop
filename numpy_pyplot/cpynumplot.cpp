@@ -84,7 +84,7 @@ static vector<double> getDvectorFrStr(string _s)
 static string excos(string _ivals) {
     string ret = "[";
     vector<double> invals = getDvectorFrStr(_ivals);
-    vector<double> cosvals = cpy::cosvec(invals);
+    vector<double> cosvals = cpy::CosVec(invals);
     for(double d : cosvals) {
         ret += to_string(d);
         ret += ",";
@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
     if(func=="-cos") {
         string val = argv[2];
         float _f = pypi_float(val);
-        double retv = cpy::cst(_f,0);
+        double retv = cpy::CST(_f,0);
         cout << " function: numpy.cos(x) [Single Value]" << endl;
         cout << " ----------------------" << endl;
         cout << " in-value: " << val << ", real: " << _f << endl;
@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
     else if(func=="-sin") {
         string val = argv[2];
         float _f = pypi_float(val);
-        double retv = cpy::cst(_f,1);
+        double retv = cpy::CST(_f,1);
         cout << " function: numpy.sin(x) [Single Value]" << endl;
         cout << " ----------------------" << endl;
         cout << " in-value: " << val << ", real: " << _f << endl;
@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
     else if(func=="-tan") {
         string val = argv[2];
         float _f = pypi_float(val);
-        double retv = cpy::cst(_f,2);
+        double retv = cpy::CST(_f,2);
         cout << " function: numpy.tan(x) [Single Value]" << endl;
         cout << " ----------------------" << endl;
         cout << " in-value: " << val << ", real: " << _f << endl;

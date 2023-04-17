@@ -2,6 +2,7 @@
 // author: J. Brandon George | darth.data410@gmail.com | @pyfryday
 // contents used for testing against C++ <-> Python interop, using Python.h from within C++ apps.
 #include <algorithm>
+#include <complex>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -12,6 +13,7 @@
 #include <python3.10/Python.h>
 
 using namespace std;
+using namespace complex_literals;
 
 // defines for py modules/functions/attributes:
 #define pyLIST "list"
@@ -69,7 +71,7 @@ namespace cpy {
     /// @param x value to perform numpy.cos,sin or tan operation upon
     /// @param t type of operation to perform. 0=cos,1=sin,2=tan
     /// @return double value based on operation. Either cos, sin or tan of param x
-    double cst(double x,int t) {
+    double CST(double x,int t) {
         const char* tbc;
         switch(t) {
             case 0: tbc = NPCOS; break;
@@ -103,11 +105,11 @@ namespace cpy {
     /// Showcasing interop between C++ <-> Python using Python.h.
     ///
     /// Example: 
-    ///  vector<double> ncosvret = cnp::pycos(inFVec<double>);
+    ///  vector<double> ncosvret = cpy::cosvec(inFVec<double>);
     ///
     /// @param inFVec: Vector of double values, used to convert to numpy.ndarray for operating on.
     /// @return Vector<double> values calculated as cosine values from inFVec values, returned from Python, numpy.cos(x)
-    vector<double> cosvec(vector<double> inFVec)
+    vector<double> CosVec(vector<double> inFVec)
     {
         vector<double> ret;
         
@@ -245,6 +247,38 @@ namespace cpy {
 
         return ret;
     }
+
+    // **********************
+    // start pycomplex section:
+    PyObject *Pycomplex(double rel, double img) {
+        complex<double> cc;
+        cc.real(rel);
+        cc.imag(img);
+        return Pycomplex(cc);
+    }
+
+    PyObject *Pycomplex(complex<double> cc) {
+        Py_complex pc;
+        pc.real = cc.real();
+        pc.imag = cc.imag();
+        PyObject *ret = PyComplex_FromCComplex(pc);
+        return ret;
+    }
+
+    complex<double> Py2Ccomplex(PyObject *pc) {
+        complex<double> ret;
+        
+        if(!PyComplex_Check(pc)) {
+            cerr << "not a valid PyComplex_Type. Fatal error." << endl;
+            return ret;
+        }
+
+        ret.real(PyComplex_RealAsDouble(pc));
+        ret.imag(PyComplex_ImagAsDouble(pc));
+        return ret;
+    }
+    // end pycomplex section:
+    // **********************
 
     /// @brief Loads numpy.random, and calls the random function to generate a PyFloat type.
     /// @return float representing randomly generated value from numpy.random.random()

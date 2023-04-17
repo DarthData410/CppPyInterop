@@ -2,6 +2,7 @@
 # author: J. Brandon George | darth.data410@gmail.com | @pyfryday
 # contents used for testing against C++ <-> Python interop, using Python.h from within C++ apps. 
 # reference: https://numpy.org/doc/stable/reference/generated/numpy.cos.html
+# sin(x) & tan(x) are similar and covered in C++ code.
 
 import numpy as np
 
