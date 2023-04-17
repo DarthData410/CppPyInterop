@@ -5,7 +5,7 @@
 // Command line execution app used for interop between C++ -> Python. Enabled by Python.h header file
 // This command line app has the following commands, and usage:
 //
-// 1. -cos:
+// 1. -cosvec:
 //    Uses passed in string of doubles, calling Python module numpy, and creates an NDarray from
 //    doubles. Then calls numpy.cos(x) to deliver the cosine values for passed in doubles.
 //    This NDarray of cosine doubles is then converted to vector<double> in C++, and then iterated through
@@ -38,7 +38,8 @@
 //    Uses three parameters with call: start, stop & step values. Expects these to be floats. Can use *pi in
 //    order to adjust one-or-all three values by. Uses the values to load Python modules numpy and 
 //    matplotlib.pyplot. Generates NDarray values using start, stop and step. Then retrieves the sin(x) values
-//    stored in a different NDarray. Calls pyplot to plot(x,y) and show(). 
+//    stored in a different NDarray. Calls pyplot to plot(x,y) and show().
+//    ./cpynumplot -pyplot <start> <stop> <step> 
 //    
 //    Examples:
 //    (Example_1): ./cpynumplot -pyplot 1 11 0.2 - Plot saved: ../numpy_pyplot/saved_plots/Example_1.png
@@ -96,7 +97,7 @@ static string excos(string _ivals) {
 /// @brief part of static C++ calls, used to parse passed in string for float value. if detects *pi will apply to value and return.
 /// @param _sr string representation of float. can include '*pi' and will apply cnp::pyPi() value. 
 /// @return returns converted string representation of float as float, with *pi applied if specified when passed in.
-static float pyplot_float(string _sr) {
+static float pypi_float(string _sr) {
     bool upi = false;
     string _spi = "*pi";
     
@@ -131,12 +132,21 @@ int main(int argc, char *argv[])
     string func = argv[1];
     cout << "\n ----- cpynumplot -----" << endl;
     if(func=="-cos") {
+        string val = argv[2];
+        float _f = pypi_float(val);
+        double retv = cpy::cos(_f);
+        cout << " function: numpy.cos(x) [Single Value]" << endl;
+        cout << " ----------------------" << endl;
+        cout << " in-value: " << val << ", real" << _f << endl;
+        cout << " cos-value: " << retv << endl;
+    }
+    else if(func=="-cosvec") {
         string vals = argv[2];
         string cosvals = excos(vals);
-        cout << " function: numpy.cos(x)" << endl;
+        cout << " function: numpy.cos(x) [C-vector]" << endl;
         cout << " ----------------------" << endl;
-        cout << " in-values: " << vals << endl;
-        cout << " cos-values: " << cosvals << endl;
+        cout << " in-value(s): " << vals << endl;
+        cout << " cos-value(s): " << cosvals << endl;
     }
     else if(func=="-pi") {
         string pret = to_string(cpy::Pi());
@@ -147,11 +157,11 @@ int main(int argc, char *argv[])
     else if(func=="-pyplot") {
         
         string strstart = argv[2];
-        float start = pyplot_float(strstart);
+        float start = pypi_float(strstart);
         string strstop = argv[3];
-        float stop = pyplot_float(strstop);
+        float stop = pypi_float(strstop);
         string strstep = argv[4];
-        float step = pyplot_float(strstep);
+        float step = pypi_float(strstep);
         
         if(cpy::Plot(start,stop,step)) {
             cout << " function: cpy::Plot() [mixed numpy-matplotlib.pyplot]" << endl;

@@ -64,6 +64,27 @@ namespace cpy {
         return program;
     }
 
+    double cos(double x) {
+        double ret;
+        PyObject *np = PyImport_ImportModule(NP);
+        PyObject *costp = PyTuple_New(1);
+        PyObject *pyx = PyFloat_FromDouble(x);
+        PyTuple_SetItem(costp,0,pyx);
+        PyObject *pNcosAttr = PyObject_GetAttrString(np,NPCOS);
+        PyObject *pNcos = PyObject_CallObject(pNcosAttr,costp);
+        
+        ret = PyFloat_AsDouble(pNcos);
+
+        // Py_CLEAR(s):
+        Py_CLEAR(pNcos);
+        Py_CLEAR(pNcosAttr);
+        Py_CLEAR(pyx);
+        Py_CLEAR(costp);
+        Py_CLEAR(np);
+
+        return ret;
+    } 
+
     /// @brief C++ call to Python numpy.cos(x). Building a list python object and passing for operation. Works with 
     /// numpy.ndarray size and item values for converting back to vector of type floats being consine of passed in values.  
     /// Showcasing interop between C++ <-> Python using Python.h.
