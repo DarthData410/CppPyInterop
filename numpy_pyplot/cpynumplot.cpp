@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
     format f = format();
     if(argc<2) {
 
-        cerr << " expected usage "+f.redtxt+"error:"+f.none+" ./cpynumplot -<function> <vals> ..." << endl;
+        cerr << " expected usage: ./cpynumplot -<function> <vals> ..." << endl;
         return 1;
     }
     
@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
     else if(func=="-pyplot") {
         
         if(argc<5) {
-            cerr << " expected usage "+f.redtxt+"error:"+f.none+" ./cpynumplot -pyplot <start> <stop> <step> \n ie: ./cpynumplot -pyplot 0.1 3*pi 0.12 \n" << endl;
+            cerr << " "+f.red+"error:"+f.none+" \n expected usage: ./cpynumplot -pyplot <start> <stop> <step> \n ie: "+f.greentxt+"./cpynumplot"+f.goldtxt+" -pyplot"+f.none+" 0.1 3"+f.goldtxt+"*"+f.bluetxt+"pi"+f.none+" 0.12 \n" << endl;
             return 1; 
         }
 
