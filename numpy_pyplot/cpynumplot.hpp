@@ -244,6 +244,10 @@ namespace cpy {
 
     // **********************
     // start pycomplex section:
+    
+    /// @brief base Pycomplex function that converts a std::complex<double> to a PyObject of type PyComplex
+    /// @param cc std::complex<double>
+    /// @return PyObject of type PyComplex
     PyObject *Pycomplex(complex<double> cc) {
         Py_complex pc;
         pc.real = cc.real();
@@ -252,6 +256,10 @@ namespace cpy {
         return ret;
     }
     
+    /// @brief Pycomplex function that uses a double r, double i to build a std:: complex and call Pycomplex(complex<double> cc) base function.
+    /// @param r double representing real value of to-be-created std::complex object, used to generate PyComplex.
+    /// @param i double representing imagenary value of to-be-created std::complex object, used to generate PyComplex.
+    /// @return PObject of type PyComplex
     PyObject *Pycomplex(double r, double i) {
         complex<double> c;
         c.real(r);
@@ -260,6 +268,9 @@ namespace cpy {
         return ret;
     }
 
+    /// @brief Converts PyObject or type PyComplex to std::complex<double> C++ object. Performs PyComplex_Check.
+    /// @param pc PyObject of type PyComplex to be converted.
+    /// @return Converted std::complex<double> from passed in PyObject of type PyComplex.
     complex<double> Py2Ccomplex(PyObject *pc) {
         complex<double> ret;
         if(!PyComplex_Check(pc)) {
@@ -272,6 +283,7 @@ namespace cpy {
         ret.imag(pcomp.imag);
         return ret;
     }
+
     // end pycomplex section:
     // **********************
 
