@@ -25,8 +25,16 @@ using namespace std;
 #define NPPi "pi"
 #define NPSIN "sin"
 #define NPDOT "dot"
-#define NPRAND "random"
 #define NPDIAG "diag"
+
+// numpy.random:
+#define NPRAND "numpy.random"
+#define NPRANDRD "random"
+
+// numpy.linalg:
+#define NPLA "numpy.linalg"
+#define NPLANORM "norm"
+#define NPLAEIGVS "eigvals"
 
 // NP.arrange:
 #define NPARNG "arange"
@@ -65,7 +73,8 @@ namespace cnp {
             PyObject *pf = PyFloat_FromDouble(d);
             int plac = PyList_Append(plist,pf);
             if(plac!=0) {
-                runtime_error("PyList_Append: failed to add C double/PyFloat_FromDouble.");
+                cerr << "PyList_Append: failed to add C double/PyFloat_FromDouble." << endl;
+                return ret;
             }
             Py_CLEAR(pf);
         }
@@ -98,7 +107,8 @@ namespace cnp {
             PyObject *pcosret = PyObject_CallObject(pcosretAttr,pItmTup);
             
             if(!PyFloat_Check(pcosret)) {
-                runtime_error("Python-numpy-array: return expected long, but PyObject not long.");
+                cerr << "Python-numpy-array: return expected long, but PyObject not long." << endl;
+                return ret;
             }
             else {
                 double cosret = PyFloat_AsDouble(pcosret);
@@ -124,6 +134,8 @@ namespace cnp {
 
         return ret;
     }
+
+
 
     /// @brief function that returns python, numpy.pi value
     /// @return returns numpy.pi value
@@ -187,6 +199,23 @@ namespace cnp {
         Py_CLEAR(npArTup);
         Py_CLEAR(mat);
         Py_CLEAR(np);
+
+        return ret;
+    }
+
+    /// @brief Loads numpy.random, and calls the random function to generate a PyFloat type.
+    /// @return float representing randomly generated value from numpy.random.random()
+    float pyRandom() {
+        float ret;
+        PyObject *pNPRAND = PyImport_ImportModule(NPRAND);
+        PyObject *pNPRNAttr = PyObject_GetAttrString(pNPRAND,NPRANDRD);
+        PyObject *pNPrnd = PyObject_CallObject(pNPRNAttr,PyTuple_New(0));
+        ret = PyFloat_AsDouble(pNPrnd);
+
+        // Py_CLEARs:
+        Py_CLEAR(pNPrnd);
+        Py_CLEAR(pNPRNAttr);
+        Py_CLEAR(pNPRAND);
 
         return ret;
     }

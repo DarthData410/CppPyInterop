@@ -5,14 +5,14 @@
 // Command line execution app used for interop between C++ -> Python. Enabled by Python.h header file
 // This command line app has the following commands, and usage:
 //
-// 1. --cos:
+// 1. -cos:
 //    Uses passed in string of doubles, calling Python module numpy, and creates an NDarray from
 //    doubles. Then calls numpy.cos(x) to deliver the cosine values for passed in doubles.
 //    This NDarray of cosine doubles is then converted to vector<double> in C++, and then iterated through
 //    to display in the command output in-values and cos-values back. 
 //    
 //    Example:
-//    ./cpynumplot --cos 1.1,0.97,1.3,2.4879
+//    ./cpynumplot -cos 1.1,0.97,1.3,2.4879
 //
 //    Output:
 //    ----- cpynumplot -----
@@ -21,12 +21,12 @@
 //    in-values: 1.1,0.97,1.3,2.4879
 //    cos-values: [0.453596,0.565300,0.267499,-0.793844]
 //
-// 2. --pi:
+// 2. -pi:
 //    Simple call, that will not operate upon any parameters. Simply loads Pythons numpy, and calls numpy.pi. 
 //    Converts from a PyObject value to a float. Using PyFloat_AsDouble(x) call.
 //
 //    Example:
-//    ./cpynumplot --pi
+//    ./cpynumplot -pi
 //
 //    Output:
 //    ----- cpynumplot -----
@@ -34,15 +34,28 @@
 //    ------------------
 //    return: 3.141593 
 //
-// 3. --pyplot:
+// 3. -pyplot:
 //    Uses three parameters with call: start, stop & step values. Expects these to be floats. Can use *pi in
 //    order to adjust one-or-all three values by. Uses the values to load Python modules numpy and 
 //    matplotlib.pyplot. Generates NDarray values using start, stop and step. Then retrieves the sin(x) values
 //    stored in a different NDarray. Calls pyplot to plot(x,y) and show(). 
 //    
 //    Examples:
-//    (Example_1): ./cpynumplot --pyplot 1 11 0.2 - Plot saved: ../numpy_pyplot/saved_plots/Example_1.png
-//    (Example_2): ./cpynumplot --pyplot 1 3*pi 0.48 - Plot saved: ../numpy_pyplot/saved_plots/Example_2.png
+//    (Example_1): ./cpynumplot -pyplot 1 11 0.2 - Plot saved: ../numpy_pyplot/saved_plots/Example_1.png
+//    (Example_2): ./cpynumplot -pyplot 1 3*pi 0.48 - Plot saved: ../numpy_pyplot/saved_plots/Example_2.png
+//
+// 4. -rand:
+//    No parameters are used when function -rand is called. Function calls numpy.random.random() and returns
+//    the randomly generated float value.
+//
+//    Example:
+//    ./cpynumplot -rand
+//
+//    Output:
+//    ----- cpynumplot -----
+//    function: numpy.random.random
+//    -----------------------------
+//    return: 0.58332
 // 
 // *****************************************************************************************************
 
@@ -118,7 +131,7 @@ int main(int argc, char *argv[])
     string func = argv[1];
     cout << "\n ----- cpynumplot -----" << endl;
     
-    if(func=="--cos") {
+    if(func=="-cos") {
         string vals = argv[2];
         string cosvals = excos(vals);
         cout << " function: numpy.cos(x)" << endl;
@@ -126,13 +139,13 @@ int main(int argc, char *argv[])
         cout << " in-values: " << vals << endl;
         cout << " cos-values: " << cosvals << endl;
     }
-    else if(func=="--pi") {
+    else if(func=="-pi") {
         string pret = to_string(cnp::pyPi());
         cout << " function: numpy.pi" << endl;
         cout << " ------------------" << endl;
         cout << " return: " << pret << endl;
     }
-    else if(func=="--pyplot") {
+    else if(func=="-pyplot") {
         
         string strstart = argv[2];
         float start = pyplot_float(strstart);
@@ -151,6 +164,11 @@ int main(int argc, char *argv[])
             cout << " step: " << strstep << ", real: " << step << endl;
             cout << " rendered successful" << endl;
         }
+    }
+    else if(func=="-rand") {
+        cout << " function: numpy.random.random" << endl;
+        cout << " -----------------------------" << endl;
+        cout << " return: " << cnp::pyRandom() << endl;
     }
     
     cout << endl;
