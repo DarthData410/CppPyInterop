@@ -116,6 +116,7 @@ static float pyplot_float(string _sr) {
     return ret;
 }
 
+/// @brief ./cpynumplot command line program main execution point
 int main(int argc, char *argv[])
 {
     if(argc<2) {
