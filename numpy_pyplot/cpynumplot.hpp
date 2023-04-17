@@ -267,14 +267,14 @@ namespace cpy {
 
     complex<double> Py2Ccomplex(PyObject *pc) {
         complex<double> ret;
-        
         if(!PyComplex_Check(pc)) {
             cerr << "not a valid PyComplex_Type. Fatal error." << endl;
             return ret;
         }
-
-        ret.real(PyComplex_RealAsDouble(pc));
-        ret.imag(PyComplex_ImagAsDouble(pc));
+        
+        Py_complex pcomp = PyComplex_AsCComplex(pc);
+        ret.real(pcomp.real);
+        ret.imag(pcomp.imag);
         return ret;
     }
     // end pycomplex section:
