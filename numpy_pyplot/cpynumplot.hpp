@@ -69,7 +69,7 @@ namespace cpy {
     /// @param x value to perform numpy.cos,sin or tan operation upon
     /// @param t type of operation to perform. 0=cos,1=sin,2=tan
     /// @return double value based on operation. Either cos, sin or tan of param x
-    double cossintan(double x,int t) {
+    double cst(double x,int t) {
         const char* tbc;
         switch(t) {
             case 0: tbc = NPCOS; break;

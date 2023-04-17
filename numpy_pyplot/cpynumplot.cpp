@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
     if(func=="-cos") {
         string val = argv[2];
         float _f = pypi_float(val);
-        double retv = cpy::cossintan(_f,0);
+        double retv = cpy::cst(_f,0);
         cout << " function: numpy.cos(x) [Single Value]" << endl;
         cout << " ----------------------" << endl;
         cout << " in-value: " << val << ", real: " << _f << endl;
@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
     else if(func=="-sin") {
         string val = argv[2];
         float _f = pypi_float(val);
-        double retv = cpy::cossintan(_f,1);
+        double retv = cpy::cst(_f,1);
         cout << " function: numpy.sin(x) [Single Value]" << endl;
         cout << " ----------------------" << endl;
         cout << " in-value: " << val << ", real: " << _f << endl;
@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
     else if(func=="-tan") {
         string val = argv[2];
         float _f = pypi_float(val);
-        double retv = cpy::cossintan(_f,2);
+        double retv = cpy::cst(_f,2);
         cout << " function: numpy.tan(x) [Single Value]" << endl;
         cout << " ----------------------" << endl;
         cout << " in-value: " << val << ", real: " << _f << endl;
