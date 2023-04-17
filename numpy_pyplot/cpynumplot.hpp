@@ -76,6 +76,7 @@ namespace cpy {
     PyObject *basepy(PyObject *py,const char* tocall,PyObject *ptup) {
         PyObject *pAttr = PyObject_GetAttrString(py,tocall);
         PyObject *pRet = PyObject_CallObject(pAttr,ptup);
+        Py_CLEAR(pAttr);
         return pRet;
     }
 
@@ -97,18 +98,15 @@ namespace cpy {
         PyObject *tp = PyTuple_New(1);
         PyObject *pyx = PyFloat_FromDouble(x);
         PyTuple_SetItem(tp,0,pyx);
-        PyObject *pNAttr = PyObject_GetAttrString(np,tbc);
-        PyObject *pN = PyObject_CallObject(pNAttr,tp);
-        
+        PyObject *pN = basepy(np,tbc,tp);
+
         ret = PyFloat_AsDouble(pN);
 
         // Py_CLEAR(s):
         Py_CLEAR(pN);
-        Py_CLEAR(pNAttr);
         Py_CLEAR(pyx);
         Py_CLEAR(tp);
         Py_CLEAR(np);
-
         return ret;
     } 
 
@@ -124,7 +122,6 @@ namespace cpy {
     vector<double> CosVec(vector<double> inFVec)
     {
         vector<double> ret;
-        
         PyObject *np = PyImport_ImportModule(NP);
         PyObject *plist = PyList_New(0);
         
@@ -142,14 +139,12 @@ namespace cpy {
         PyTuple_SetItem(pLTup,0,plist);
         
         // np.array attr / call:
-        PyObject *pNDArrayAttr = PyObject_GetAttrString(np,NPARRAY);
-        PyObject *pNDArray = PyObject_CallObject(pNDArrayAttr,pLTup);
+        PyObject *pNDArray = basepy(np,NPARRAY,pLTup);
 
         // np.cos attr / call:
         PyObject *pNDArryTup = PyTuple_New(1);
         PyTuple_SetItem(pNDArryTup,0,pNDArray);
-        PyObject *pNcosAttr = PyObject_GetAttrString(np,NPCOS);
-        PyObject *pNcos = PyObject_CallObject(pNcosAttr,pNDArryTup);
+        PyObject *pNcos = basepy(np,NPCOS,pNDArryTup);
 
         // np.cos returned ndarray, size:
         PyObject *pNcosASize = PyObject_GetAttrString(pNcos,NPARRAY_SZ);
@@ -162,8 +157,7 @@ namespace cpy {
         for(int i=0;i<count_of;i++) {
             PyObject *pidx = PyLong_FromLong(i);
             PyTuple_SetItem(pItmTup,0,pidx);
-            PyObject *pcosretAttr = PyObject_GetAttrString(pNcos,NPARRAY_I);
-            PyObject *pcosret = PyObject_CallObject(pcosretAttr,pItmTup);
+            PyObject *pcosret = basepy(pNcos,NPARRAY_I,pItmTup);
             
             if(!PyFloat_Check(pcosret)) {
                 cerr << "Python-numpy-array: return expected long, but PyObject not long." << endl;
@@ -175,7 +169,6 @@ namespace cpy {
             }
 
             Py_CLEAR(pcosret);
-            Py_CLEAR(pcosretAttr);
             Py_CLEAR(pidx);
         }
 
@@ -183,14 +176,11 @@ namespace cpy {
         Py_CLEAR(pItmTup);
         Py_CLEAR(pNcosASize);
         Py_CLEAR(pNcos);
-        Py_CLEAR(pNcosAttr);
         Py_CLEAR(pNDArryTup);
         Py_CLEAR(pNDArray);
-        Py_CLEAR(pNDArrayAttr);
         Py_CLEAR(pLTup);
         Py_CLEAR(plist);
         Py_CLEAR(np);
-
         return ret;
     }
 
@@ -223,8 +213,7 @@ namespace cpy {
         PyTuple_SetItem(npArTup,0,PyFloat_FromDouble(start));
         PyTuple_SetItem(npArTup,1,PyFloat_FromDouble(stop));
         PyTuple_SetItem(npArTup,2,PyFloat_FromDouble(step));
-        PyObject *npArAttr = PyObject_GetAttrString(np,NPARNG);
-        PyObject *npAr = PyObject_CallObject(npArAttr,npArTup);
+        PyObject *npAr = basepy(np,NPARNG,npArTup);
 
         PyObject *npSinTup = PyTuple_New(1);
         PyTuple_SetItem(npSinTup,0,npAr);
@@ -252,7 +241,6 @@ namespace cpy {
         Py_CLEAR(npSinAttr);
         Py_CLEAR(npSinTup);
         Py_CLEAR(npAr);
-        Py_CLEAR(npArAttr);
         Py_CLEAR(npArTup);
         Py_CLEAR(mat);
         Py_CLEAR(np);
