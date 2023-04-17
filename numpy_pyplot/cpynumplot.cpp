@@ -83,7 +83,7 @@ static vector<double> getDvectorFrStr(string _s)
 static string excos(string _ivals) {
     string ret = "[";
     vector<double> invals = getDvectorFrStr(_ivals);
-    vector<double> cosvals = cpy::cos(invals);
+    vector<double> cosvals = cpy::cosvec(invals);
     for(double d : cosvals) {
         ret += to_string(d);
         ret += ",";
