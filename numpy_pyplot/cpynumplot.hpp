@@ -75,11 +75,20 @@ namespace cpy {
     /// @return returns value from targeted Python function call. *** Calling logic should know Python Type being returned. ***
     PyObject *basepy(PyObject *py,const char* tocall,PyObject *ptup) {
         PyObject *pAttr = PyObject_GetAttrString(py,tocall);
-        PyObject *pRet = PyObject_CallObject(pAttr,ptup);
-        Py_CLEAR(pAttr);
-        return pRet;
+        if(pAttr!=NULL) {
+            PyObject *pRet = PyObject_CallObject(pAttr,ptup);
+            Py_CLEAR(pAttr);
+            return pRet;
+        }
+        else {
+            PyErr_Print();
+            throw runtime_error(("PyObject_GetAttrString failed for: %s",tocall));
+        }
     }
 
+    /// @brief base level function that safely loads a Python module. Checks for loading, and if NULL throws runtime_error() for attempted module
+    /// @param m Python module to be imported using PyImport_ImportModule(m).
+    /// @return returns PyObject represented successfully imported Python module.
     PyObject *modimp(const char* m) {
         PyObject *ret = PyImport_ImportModule(m);
         if(ret==NULL) {
@@ -317,8 +326,14 @@ namespace cpy {
     /// @return True on successful Python finalizing, False upon any error.  
     bool finalize(wchar_t *program) {
         bool ret = true;
-        Py_Finalize();
-        PyMem_RawFree(program);
+        try {
+            Py_Finalize();
+            PyMem_RawFree(program);
+        }
+        catch(...) {
+            ret = false;
+            PyErr_Print();
+        }
         return ret;
     }
 }
