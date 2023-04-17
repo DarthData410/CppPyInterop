@@ -67,6 +67,18 @@ namespace cpy {
         return program;
     }
 
+    /// @brief Base Python.h embedded C++ function for retriving an object attribute string, and then calling that object
+    /// with passed in ptup as a PyTuple_Type, filled with any arguments that are needed. 
+    /// @param py the module/object that is the target of the PyObject_GetAttrString
+    /// @param tocall the function of the module/object that is the target of the PyObject_GetAttrString
+    /// @param ptup the PyTuple_Type, PyObject* target of hte PyObject_CallObject, containing needed arguments for successful Python call.
+    /// @return returns value from targeted Python function call. *** Calling logic should know Python Type being returned. ***
+    PyObject *basepy(PyObject *py,const char* tocall,PyObject *ptup) {
+        PyObject *pAttr = PyObject_GetAttrString(py,tocall);
+        PyObject *pRet = PyObject_CallObject(pAttr,ptup);
+        return pRet;
+    }
+
     /// @brief Common function, based on t value to return cos,sin or tan value of x param. Call numpy.cos,sin or tan.
     /// @param x value to perform numpy.cos,sin or tan operation upon
     /// @param t type of operation to perform. 0=cos,1=sin,2=tan
@@ -271,7 +283,7 @@ namespace cpy {
             cerr << "not a valid PyComplex_Type. Fatal error." << endl;
             return ret;
         }
-        
+
         Py_complex pcomp = PyComplex_AsCComplex(pc);
         ret.real(pcomp.real);
         ret.imag(pcomp.imag);
