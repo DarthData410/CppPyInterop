@@ -61,6 +61,7 @@
 // *****************************************************************************************************
 
 #include "cpynumplot.hpp"
+#include "format.hpp"
 
 /// @brief Converts a string of doubles, checking for separator, and converts to a vector of doubles
 /// @param _s string value of doubles with separator
@@ -120,9 +121,10 @@ static float pypi_float(string _sr) {
 /// @brief ./cpynumplot command line program main execution point
 int main(int argc, char *argv[])
 {
+    format f = format();
     if(argc<2) {
 
-        cerr << "expected usage: ./cpynumplot --<function> <vals> ..." << endl;
+        cerr << " expected usage "+f.redtxt+"error:"+f.none+" ./cpynumplot -<function> <vals> ..." << endl;
         return 1;
     }
     
@@ -156,6 +158,11 @@ int main(int argc, char *argv[])
     }
     else if(func=="-pyplot") {
         
+        if(argc<5) {
+            cerr << " expected usage "+f.redtxt+"error:"+f.none+" ./cpynumplot -pyplot <start> <stop> <step> \n ie: ./cpynumplot -pyplot 0.1 3*pi 0.12 \n" << endl;
+            return 1; 
+        }
+
         string strstart = argv[2];
         float start = pypi_float(strstart);
         string strstop = argv[3];
