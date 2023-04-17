@@ -83,7 +83,7 @@ static vector<double> getDvectorFrStr(string _s)
 static string excos(string _ivals) {
     string ret = "[";
     vector<double> invals = getDvectorFrStr(_ivals);
-    vector<double> cosvals = cnp::pycos(invals);
+    vector<double> cosvals = cpy::cos(invals);
     for(double d : cosvals) {
         ret += to_string(d);
         ret += ",";
@@ -110,7 +110,7 @@ static float pyplot_float(string _sr) {
 
     float ret = stof(_sr);
     if(upi) {
-        ret = ret * cnp::pyPi();
+        ret = ret * cpy::Pi();
     }
     return ret;
 }
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
         cout << " cos-values: " << cosvals << endl;
     }
     else if(func=="-pi") {
-        string pret = to_string(cnp::pyPi());
+        string pret = to_string(cpy::Pi());
         cout << " function: numpy.pi" << endl;
         cout << " ------------------" << endl;
         cout << " return: " << pret << endl;
@@ -154,8 +154,8 @@ int main(int argc, char *argv[])
         string strstep = argv[4];
         float step = pyplot_float(strstep);
         
-        if(cnp::pyPlot(start,stop,step)) {
-            cout << " function: cnp::pyPlot() [mixed numpy-matplotlib.pyplot]" << endl;
+        if(cpy::Plot(start,stop,step)) {
+            cout << " function: cpy::Plot() [mixed numpy-matplotlib.pyplot]" << endl;
             cout << " -------------------------------" << endl;
             cout << " values used for rendering plot:" << endl;
             cout << " ---------" << endl;
@@ -168,7 +168,7 @@ int main(int argc, char *argv[])
     else if(func=="-rand") {
         cout << " function: numpy.random.random" << endl;
         cout << " -----------------------------" << endl;
-        cout << " return: " << cnp::pyRandom() << endl;
+        cout << " return: " << cpy::Random() << endl;
     }
     
     cout << endl;

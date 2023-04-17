@@ -51,7 +51,7 @@ using namespace std;
 #define MPLOT "plot"
 #define MSHOW "show"
 
-namespace cnp {
+namespace cpy {
     
     /// @brief C++ call to Python numpy.cos(x). Building a list python object and passing for operation. Works with 
     /// numpy.ndarray size and item values for converting back to vector of type floats being consine of passed in values.  
@@ -62,7 +62,7 @@ namespace cnp {
     ///
     /// @param inFVec: Vector of double values, used to convert to numpy.ndarray for operating on.
     /// @return Vector<double> values calculated as cosine values from inFVec values, returned from Python, numpy.cos(x)
-    vector<double> pycos(vector<double> inFVec)
+    vector<double> cos(vector<double> inFVec)
     {
         vector<double> ret;
         
@@ -139,7 +139,7 @@ namespace cnp {
 
     /// @brief function that returns python, numpy.pi value
     /// @return returns numpy.pi value
-    float pyPi() {
+    float Pi() {
         
         PyObject *np = PyImport_ImportModule(NP);
         PyObject *pPi = PyObject_GetAttrString(np,NPPi);
@@ -156,7 +156,7 @@ namespace cnp {
     /// @param stop float value for stopping point
     /// @param step float value used for stepping between start & stop float values
     /// @return true is executed without error, false if executed with error. 
-    bool pyPlot(float start, float stop, float step) {
+    bool Plot(float start, float stop, float step) {
         bool ret = true;
         
         PyObject *np = PyImport_ImportModule(NP);
@@ -205,7 +205,7 @@ namespace cnp {
 
     /// @brief Loads numpy.random, and calls the random function to generate a PyFloat type.
     /// @return float representing randomly generated value from numpy.random.random()
-    float pyRandom() {
+    float Random() {
         float ret;
         PyObject *pNPRAND = PyImport_ImportModule(NPRAND);
         PyObject *pNPRNAttr = PyObject_GetAttrString(pNPRAND,NPRANDRD);
