@@ -65,8 +65,11 @@ namespace cpy {
         return program;
     }
 
+    /// @brief Common function, based on t value to return cos,sin or tan value of x param. Call numpy.cos,sin or tan.
+    /// @param x value to perform numpy.cos,sin or tan operation upon
+    /// @param t type of operation to perform. 0=cos,1=sin,2=tan
+    /// @return double value based on operation. Either cos, sin or tan of param x
     double cossintan(double x,int t) {
-        // switch on 0 = cos, 1 = sin
         const char* tbc;
         switch(t) {
             case 0: tbc = NPCOS; break;
