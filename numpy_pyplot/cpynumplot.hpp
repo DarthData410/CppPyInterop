@@ -252,6 +252,13 @@ namespace cpy {
         return ret;
     }
     
+    PyObject *Pycomplex(double r, double i) {
+        complex<double> c;
+        c.real(r);
+        c.imag(i);
+        PyObject *ret = Pycomplex(c);
+        return ret;
+    }
 
     complex<double> Py2Ccomplex(PyObject *pc) {
         complex<double> ret;
