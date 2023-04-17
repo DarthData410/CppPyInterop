@@ -217,28 +217,22 @@ namespace cpy {
 
         PyObject *npSinTup = PyTuple_New(1);
         PyTuple_SetItem(npSinTup,0,npAr);
-        PyObject *npSinAttr = PyObject_GetAttrString(np,NPSIN);
-        PyObject *npSin = PyObject_CallObject(npSinAttr,npSinTup);
+        PyObject *npSin = basepy(np,NPSIN,npSinTup);
 
         PyObject *mPlotTup = PyTuple_New(2);
         PyTuple_SetItem(mPlotTup,0,npAr);
         PyTuple_SetItem(mPlotTup,1,npSin);
-        PyObject *mPlotAttr = PyObject_GetAttrString(mat,MPLOT);
-        PyObject *mPlot = PyObject_CallObject(mPlotAttr,mPlotTup);
+        PyObject *mPlot = basepy(mat,MPLOT,mPlotTup);
 
         PyObject *ET = PyTuple_New(0);
-        PyObject *mPlotShowAttr = PyObject_GetAttrString(mat,MSHOW);
-        PyObject *mPlotShow = PyObject_CallObject(mPlotShowAttr,ET);
+        PyObject *mPlotShow = basepy(mat,MSHOW,ET);
 
         // Py_CLEAR section:
         Py_CLEAR(mPlotShow);
-        Py_CLEAR(mPlotShowAttr);
         Py_CLEAR(ET);
         Py_CLEAR(mPlot);
-        Py_CLEAR(mPlotAttr);
         Py_CLEAR(mPlotTup);
         Py_CLEAR(npSin);
-        Py_CLEAR(npSinAttr);
         Py_CLEAR(npSinTup);
         Py_CLEAR(npAr);
         Py_CLEAR(npArTup);
@@ -285,15 +279,12 @@ namespace cpy {
     float Random() {
         float ret;
         PyObject *pNPRAND = PyImport_ImportModule(NPRAND);
-        PyObject *pNPRNAttr = PyObject_GetAttrString(pNPRAND,NPRANDRD);
-        PyObject *pNPrnd = PyObject_CallObject(pNPRNAttr,PyTuple_New(0));
+        PyObject *pNPrnd = basepy(pNPRAND,NPRANDRD,PyTuple_New(0));
         ret = PyFloat_AsDouble(pNPrnd);
 
         // Py_CLEARs:
         Py_CLEAR(pNPrnd);
-        Py_CLEAR(pNPRNAttr);
         Py_CLEAR(pNPRAND);
-
         return ret;
     }
 
