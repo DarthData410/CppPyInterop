@@ -13,8 +13,6 @@
 
 using namespace std;
 
-#define APP "cpynumplot"
-
 // defines for py modules/functions/attributes:
 #define pyLIST "list"
 #define pyLIST_A "append"
@@ -53,6 +51,19 @@ using namespace std;
 
 namespace cpy {
     
+    /// @brief Must be the first call by any C++ implementation of this header. Initializes Python, using the value
+    /// of the _app param passed in. This value must be retained during execution of Python function calls. Then used
+    /// in call for cpy::finalize() so that the wchar_t value can free memory when C++ application scope for Python
+    /// is completed.
+    /// @param _app const char* value representing C++ application name. Typically argv[0] value from a C++ command line app.
+    /// @return wchar_t value created with Py_DecodeLocale, used with Py_SetProgramName for Py_Initialize() call.
+    wchar_t *init(const char* _app) {
+        wchar_t *program = Py_DecodeLocale(_app, NULL);
+        Py_SetProgramName(program);
+        Py_Initialize();
+        return program;
+    }
+
     /// @brief C++ call to Python numpy.cos(x). Building a list python object and passing for operation. Works with 
     /// numpy.ndarray size and item values for converting back to vector of type floats being consine of passed in values.  
     /// Showcasing interop between C++ <-> Python using Python.h.
@@ -134,8 +145,6 @@ namespace cpy {
 
         return ret;
     }
-
-
 
     /// @brief function that returns python, numpy.pi value
     /// @return returns numpy.pi value
@@ -220,5 +229,16 @@ namespace cpy {
         return ret;
     }
 
+    /// @brief Final call that needs to be made by C++ application when the scope of embedded Python is completed.
+    /// Calls Py_Finalize() and free's up any Python objects from memory, using wchar_t program name value that was
+    /// generated as part of cpy::init() - initialize call.
+    /// @param program wchar_t * value representing the name of the C++ program, represented in the scope of embeeded Python usage.
+    /// @return True on successful Python finalizing, False upon any error.  
+    bool finalize(wchar_t *program) {
+        bool ret = true;
+        Py_Finalize();
+        PyMem_RawFree(program);
+        return ret;
+    }
 }
 

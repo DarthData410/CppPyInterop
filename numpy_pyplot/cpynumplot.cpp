@@ -101,8 +101,9 @@ static float pyplot_float(string _sr) {
     string _spi = "*pi";
     
     size_t found=_sr.find(_spi);
-    if( found != std::string::npos) {
+    if( found != string::npos) {
         upi = true;
+        // using <algorithm>::replace() function here:
         replace(_sr.begin(),_sr.end(),'*',' ');
         replace(_sr.begin(),_sr.end(),'p',' ');
         replace(_sr.begin(),_sr.end(),'i',' ');
@@ -122,15 +123,12 @@ int main(int argc, char *argv[])
         cerr << "expected usage: ./cpynumplot --<function> <vals> ..." << endl;
         return 1;
     }
-
-    wchar_t *program = Py_DecodeLocale(APP, NULL);
     
-    Py_SetProgramName(program);
-    Py_Initialize();
+    // Initialize cpy from binary argv name: ./cpynumplot
+    wchar_t *program = cpy::init(argv[0]);
 
     string func = argv[1];
     cout << "\n ----- cpynumplot -----" << endl;
-    
     if(func=="-cos") {
         string vals = argv[2];
         string cosvals = excos(vals);
@@ -170,11 +168,13 @@ int main(int argc, char *argv[])
         cout << " -----------------------------" << endl;
         cout << " return: " << cpy::Random() << endl;
     }
-    
     cout << endl;
 
-    Py_Finalize();
-    PyMem_RawFree(program);
+    // call cpy::finalize() to close Python program out, and free memory up.:
+    if(!cpy::finalize(program)) {
+        cerr << "problems finalizing python program. fatal errors." << endl;
+        return 1;
+    }
        
     return 0;
 }
