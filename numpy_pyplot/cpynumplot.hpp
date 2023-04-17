@@ -80,6 +80,15 @@ namespace cpy {
         return pRet;
     }
 
+    PyObject *modimp(const char* m) {
+        PyObject *ret = PyImport_ImportModule(m);
+        if(ret==NULL) {
+            PyErr_Print();
+            throw runtime_error("cpy::modimp - Python Module Load Error");
+        }
+        return ret;
+    }
+
     /// @brief Common function, based on t value to return cos,sin or tan value of x param. Call numpy.cos,sin or tan.
     /// @param x value to perform numpy.cos,sin or tan operation upon
     /// @param t type of operation to perform. 0=cos,1=sin,2=tan
@@ -94,7 +103,7 @@ namespace cpy {
         }
         
         double ret;
-        PyObject *np = PyImport_ImportModule(NP);
+        PyObject *np = modimp(NP);
         PyObject *tp = PyTuple_New(1);
         PyObject *pyx = PyFloat_FromDouble(x);
         PyTuple_SetItem(tp,0,pyx);
@@ -122,7 +131,7 @@ namespace cpy {
     vector<double> CosVec(vector<double> inFVec)
     {
         vector<double> ret;
-        PyObject *np = PyImport_ImportModule(NP);
+        PyObject *np = modimp(NP);
         PyObject *plist = PyList_New(0);
         
         for(double d : inFVec) {
@@ -188,7 +197,7 @@ namespace cpy {
     /// @return returns numpy.pi value
     float Pi() {
         
-        PyObject *np = PyImport_ImportModule(NP);
+        PyObject *np = modimp(NP);
         PyObject *pPi = PyObject_GetAttrString(np,NPPi);
         float ret = PyFloat_AsDouble(pPi);
         
@@ -206,8 +215,8 @@ namespace cpy {
     bool Plot(float start, float stop, float step) {
         bool ret = true;
         
-        PyObject *np = PyImport_ImportModule(NP);
-        PyObject *mat = PyImport_ImportModule(MAT);
+        PyObject *np = modimp(NP);
+        PyObject *mat = modimp(MAT);
 
         PyObject *npArTup = PyTuple_New(3);
         PyTuple_SetItem(npArTup,0,PyFloat_FromDouble(start));
@@ -291,7 +300,7 @@ namespace cpy {
     /// @return float representing randomly generated value from numpy.random.random()
     float Random() {
         float ret;
-        PyObject *pNPRAND = PyImport_ImportModule(NPRAND);
+        PyObject *pNPRAND = modimp(NPRAND);
         PyObject *pNPrnd = basepy(pNPRAND,NPRANDRD,PyTuple_New(0));
         ret = PyFloat_AsDouble(pNPrnd);
 
