@@ -55,6 +55,55 @@ using namespace complex_literals;
 #define MSHOW "show"
 
 namespace cpy {
+
+    // TypeDefs and supporting classes:
+    typedef struct matrix {
+        vector<vector<double>> values;
+        int cols;
+        int rows;
+        string size;    
+    } Matrix;
+
+
+    class NDMatrix {
+    private:
+        Matrix mat;
+        int cr(int i) {
+            return i-1;
+        }
+    public:
+        NDMatrix(int cols, int rows) {
+            mat.cols = cols;
+            mat.rows = rows;
+            mat.size = to_string(cols) + "x" + to_string(rows);
+
+            for(int i=0;i<cols;i++) {
+                vector<double> vrows;
+                for(int x=0;x<rows;x++) {
+                    vrows.push_back(0.0);
+                }
+                mat.values.push_back(vrows);
+            }
+        }
+
+        void set(int col, int row, double v) {
+            mat.values[cr(col)][cr(row)] = v;
+        }
+
+        double get(int col, int row) {
+            return mat.values[cr(col)][cr(row)];
+        }
+
+        string size() {
+            return mat.size;
+        }
+
+        vector<double> getcol(int col) {
+            return mat.values[col];
+        }
+    };
+    
+     
     
     /// @brief Must be the first call by any C++ implementation of this header. Initializes Python, using the value
     /// of the _app param passed in. This value must be retained during execution of Python function calls. Then used
@@ -234,55 +283,66 @@ namespace cpy {
         return ret;
     }
 
+    vector<double> DiagVec(vector<vector<double>> vvd) {
+        Matrix m;
+        
+    }
+
     /// @brief function used to showcase C++ -> Python interop for numpy.diag(x) call. Uses passed in array, of size 3, of
     /// double based vector(s). Will return a vector of doubles representing the diagonal values of the Python numpy NDarray
     /// built from the passed in C-array of double based vector(s).
     /// @param nda C-array of double based vector(s). Up to a 3d matrix.
     /// @return double based C-vector of numpy.diag(x) values.
     vector<double> DiagVec(array<vector<double>,3> nda) {
-        vector<double> ret;
-        PyObject *dpl1,*dpl2,*dpl3,*dplin;
-        // first vector must contain values:
-        dplin = PyList_New(0);
-        dpl1 = dvecPyList(nda[0]);
-        PyList_Append(dplin,dpl1);
-        
-        if(nda[1].size()>0) {
-            dpl2 = dvecPyList(nda[1]);
-            PyList_Append(dplin,dpl2);
-        }
-        if(nda[2].size()>0) {
-            dpl3 = dvecPyList(nda[2]);
-            PyList_Append(dplin,dpl3);
-        }
+        try {
+            vector<double> ret;
+            PyObject *dpl1,*dpl2,*dpl3,*dplin;
+            // first vector must contain values:
+            dplin = PyList_New(0);
+            dpl1 = dvecPyList(nda[0]);
+            PyList_Append(dplin,dpl1);
+            
+            if(nda[1].size()>0) {
+                dpl2 = dvecPyList(nda[1]);
+                PyList_Append(dplin,dpl2);
+            }
+            if(nda[2].size()>0) {
+                dpl3 = dvecPyList(nda[2]);
+                PyList_Append(dplin,dpl3);
+            }
 
-        Py_CLEAR(dpl1);
-        Py_CLEAR(dpl2);
-        Py_CLEAR(dpl3);
+            if(dpl1!=NULL) { Py_CLEAR(dpl1); }
+            if(dpl2!=NULL) { Py_CLEAR(dpl2); }
+            if(dpl3!=NULL) { Py_CLEAR(dpl3); }
 
-        PyObject *np = modimp(NP);
-        PyObject *dtup = PyTuple_New(1);
-        PyTuple_SetItem(dtup,0,dplin);
-        PyObject *dret = basepy(np,NPDIAG,dtup);
-        PyObject *dretl = basepy(dret,NPARRAY_TL,PyTuple_New(0));
-        Py_ssize_t lsz = PyList_Size(dretl);
-        
-        PyObject *dretitup = PyTuple_New(1);
-        for(int i=0;i<lsz;i++) {
-            PyObject *dreti = PyList_GetItem(dretl,i);
-            double dretd = PyFloat_AsDouble(dreti);
-            ret.push_back(dretd);
-            Py_CLEAR(dreti);
+            PyObject *np = modimp(NP);
+            PyObject *dtup = PyTuple_New(1);
+            PyTuple_SetItem(dtup,0,dplin);
+            PyObject *dret = basepy(np,NPDIAG,dtup);
+            PyObject *dretl = basepy(dret,NPARRAY_TL,PyTuple_New(0));
+            Py_ssize_t lsz = PyList_Size(dretl);
+            
+            PyObject *dretitup = PyTuple_New(1);
+            for(int i=0;i<lsz;i++) {
+                PyObject *dreti = PyList_GetItem(dretl,i);
+                double dretd = PyFloat_AsDouble(dreti);
+                ret.push_back(dretd);
+                Py_CLEAR(dreti);
+            }
+            
+            Py_CLEAR(dretitup);
+            Py_CLEAR(dretl);
+            Py_CLEAR(dret);
+            Py_CLEAR(dtup);
+            Py_CLEAR(np);
+            Py_CLEAR(dplin);
+
+            return ret;
         }
-        
-        Py_CLEAR(dretitup);
-        Py_CLEAR(dretl);
-        Py_CLEAR(dret);
-        Py_CLEAR(dtup);
-        Py_CLEAR(np);
-        Py_CLEAR(dplin);
-
-        return ret;
+        catch(...) {
+            PyErr_Print();
+            throw runtime_error("fatal issues with cpy::diagvec execution.");
+        }
     }
 
     /// @brief function that returns python, numpy.pi value

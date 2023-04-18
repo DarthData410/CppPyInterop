@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
             in[1] = inv1;
             cout << " in-value(s)[2]: " << argv[3] << endl;
         }
-        if(argc==5) {
+        if(argc>=5) {
             vector<double> inv2 = getDvectorFrStr(argv[4]);
             in[2] = inv2;
             cout << " in-value(s)[3]: " << argv[4] << endl;
@@ -123,6 +123,16 @@ int main(int argc, char *argv[])
         drs = drs.substr(0,drs.size()-1);
         drs += "]";
         cout << " diag-values: " << drs << endl;
+    }
+    else if(func=="-mattest") {
+        cpy::NDMatrix m = cpy::NDMatrix(3,3);
+        cout << " size: " << m.size() << endl;
+        m.set(1,2,0.314);
+        m.set(3,3,7.74);
+        m.set(3,1,1.1);
+        cout << " (1,2) get: " << m.get(1,2) << endl;
+        cout << " (3,3) get: " << m.get(3,3) << endl;
+        cout << " (3,1) get: " << m.get(3,1) << endl;
     }
     else if(func=="-pi") {
         string pret = to_string(cpy::Pi());
