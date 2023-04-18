@@ -58,13 +58,18 @@ namespace cpy {
     /// of the _app param passed in. This value must be retained during execution of Python function calls. Then used
     /// in call for cpy::finalize() so that the wchar_t value can free memory when C++ application scope for Python
     /// is completed.
-    /// @param _app const char* value representing C++ application name. Typically argv[0] value from a C++ command line app.
+    /// @param app const char* value representing C++ application name. Typically argv[0] value from a C++ command line app.
     /// @return wchar_t value created with Py_DecodeLocale, used with Py_SetProgramName for Py_Initialize() call.
-    wchar_t *init(const char* _app) {
-        wchar_t *program = Py_DecodeLocale(_app, NULL);
-        Py_SetProgramName(program);
-        Py_Initialize();
-        return program;
+    wchar_t *init(const char* app) {
+        try {
+            wchar_t *program = Py_DecodeLocale(app, NULL);
+            Py_SetProgramName(program);
+            Py_Initialize();
+            return program;
+        }
+        catch(...) {
+            throw runtime_error(("%s fata error trying to call Py_Initialize. check Python install."));
+        }
     }
 
     /// @brief Base Python.h embedded C++ function for retriving an object attribute string, and then calling that object
@@ -133,22 +138,21 @@ namespace cpy {
     /// Showcasing interop between C++ <-> Python using Python.h.
     ///
     /// Example: 
-    ///  vector<double> ncosvret = cpy::cosvec(inFVec<double>);
+    ///  vector<double> ncosvret = cpy::cosvec(indvec<double>);
     ///
-    /// @param inFVec: Vector of double values, used to convert to numpy.ndarray for operating on.
+    /// @param indvec: Vector of double values, used to convert to numpy.ndarray for operating on.
     /// @return Vector<double> values calculated as cosine values from inFVec values, returned from Python, numpy.cos(x)
-    vector<double> CosVec(vector<double> inFVec)
+    vector<double> CosVec(vector<double> indvec)
     {
         vector<double> ret;
         PyObject *np = modimp(NP);
         PyObject *plist = PyList_New(0);
         
-        for(double d : inFVec) {
+        for(double d : indvec) {
             PyObject *pf = PyFloat_FromDouble(d);
             int plac = PyList_Append(plist,pf);
             if(plac!=0) {
-                cerr << "PyList_Append: failed to add C double/PyFloat_FromDouble." << endl;
-                return ret;
+                throw runtime_error("PyList_Append: failed to add C double/PyFloat_FromDouble.");
             }
             Py_CLEAR(pf);
         }
@@ -178,8 +182,7 @@ namespace cpy {
             PyObject *pcosret = basepy(pNcos,NPARRAY_I,pItmTup);
             
             if(!PyFloat_Check(pcosret)) {
-                cerr << "Python-numpy-array: return expected long, but PyObject not long." << endl;
-                return ret;
+                throw runtime_error("Python-numpy-array: return expected long, but PyObject not long.");
             }
             else {
                 double cosret = PyFloat_AsDouble(pcosret);
@@ -292,8 +295,7 @@ namespace cpy {
     complex<double> Py2Ccomplex(PyObject *pc) {
         complex<double> ret;
         if(!PyComplex_Check(pc)) {
-            cerr << "not a valid PyComplex_Type. Fatal error." << endl;
-            return ret;
+            throw runtime_error("not a valid PyComplex_Type. Fatal error.");
         }
 
         Py_complex pcomp = PyComplex_AsCComplex(pc);
