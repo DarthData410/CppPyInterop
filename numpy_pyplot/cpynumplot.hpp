@@ -65,9 +65,25 @@ namespace cpy {
     } Matrix;
 
     class NDMatrix {
-    private:
-        Matrix mat;
     public:
+        Matrix mat;
+        
+        static NDMatrix sum(NDMatrix left, NDMatrix right) {
+            if(left.size()!=right.size()) {
+                throw runtime_error("cpy::NDMatrix sum(left,right) - size mismatch. NDMatrix sizes must match for sum operation.");
+            }
+            NDMatrix ret = NDMatrix(left.mat.rows,left.mat.cols);
+
+            for(int i=0;i<left.mat.rows;i++) {
+                for(int x=0;x<left.mat.cols;x++) {
+                    double sv = (left.mat.values[i][x]+right.mat.values[i][x]);
+                    ret.set(i,x,sv);
+                }
+            }
+
+            return ret;
+        }
+
         NDMatrix(int rows, int cols) {
             mat.rows = rows;
             mat.cols = cols;

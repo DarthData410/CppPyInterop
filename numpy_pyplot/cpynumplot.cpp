@@ -141,7 +141,6 @@ int main(int argc, char *argv[])
         cout << m.getcolstr(2) << endl; 
         cout << m.getrowstr(1) << endl;
         cout << m.sizeofm() << endl;
-        cout << to_string(sizeof(m)) << endl;
 
         cpy::NDMatrix m8 = cpy::NDMatrix(8,8);
         cout << " size: " << m8.size() << endl;
@@ -154,7 +153,17 @@ int main(int argc, char *argv[])
         cout << m8.getcolstr(2) << endl; 
         cout << m8.getrowstr(1) << endl;
         cout << m8.sizeofm() << endl;
-        cout << to_string(sizeof(m8)) << endl;
+
+        cpy::NDMatrix ma = cpy::NDMatrix(2,2);
+        cpy::NDMatrix mb = cpy::NDMatrix(2,2);
+        ma.set(0,0,1.1);
+        ma.set(1,0,2.2);
+        ma.set(1,1,3.14);
+        mb.set(0,1,2);
+        mb.set(0,0,7.8);
+        mb.set(1,1,2);
+        cpy::NDMatrix mc = cpy::NDMatrix::sum(ma,mb);
+        cout << mc.str() << endl;
 
     }
     else if(func=="-pi") {
