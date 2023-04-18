@@ -214,10 +214,10 @@ namespace cpy {
     }
 
     vector<double> diagvec(array<vector<double>,3> nda) {
-        cout << nda[0][0] << endl;
-        cout << "test daivec over" << endl;
         vector<double> ret;
-        ret.push_back(0.1);
+        
+        
+
         return ret;
     }
 

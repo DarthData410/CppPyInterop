@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
         vector<double> inv0 = getDvectorFrStr(argv[2]);
         in[0] = inv0;
         cout << " in-value(s)[1]: " << argv[2] << endl;
-        if(argc==4) {
+        if(argc>=4) {
             vector<double> inv1 = getDvectorFrStr(argv[3]);
             in[1] = inv1;
             cout << " in-value(s)[2]: " << argv[3] << endl;
@@ -117,12 +117,12 @@ int main(int argc, char *argv[])
         vector<double> dvret = cpy::diagvec(in);
         string drs = "[";
         for(double d : dvret) {
-            drs += d;
+            drs += to_string(d);
             drs += ",";
         }
         drs = drs.substr(0,drs.size()-1);
         drs += "]";
-        cout << " daig-values: " << drs << endl;
+        cout << " diag-values: " << drs << endl;
     }
     else if(func=="-pi") {
         string pret = to_string(cpy::Pi());
