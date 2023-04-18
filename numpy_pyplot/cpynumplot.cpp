@@ -96,6 +96,34 @@ int main(int argc, char *argv[])
         cout << " in-value(s): " << vals << endl;
         cout << " cos-value(s): " << cosvals << endl;
     }
+    else if(func=="-diagvec") {
+        array<vector<double>,3> in;
+        cout << " function: numpy.diag(x) [C-vector(s)]" << endl;
+        cout << " ----------------------" << endl;
+        vector<double> inv0 = getDvectorFrStr(argv[2]);
+        in[0] = inv0;
+        cout << " in-value(s)[1]: " << argv[2] << endl;
+        if(argc==4) {
+            vector<double> inv1 = getDvectorFrStr(argv[3]);
+            in[1] = inv1;
+            cout << " in-value(s)[2]: " << argv[3] << endl;
+        }
+        if(argc==5) {
+            vector<double> inv2 = getDvectorFrStr(argv[4]);
+            in[2] = inv2;
+            cout << " in-value(s)[3]: " << argv[4] << endl;
+        }
+        
+        vector<double> dvret = cpy::diagvec(in);
+        string drs = "[";
+        for(double d : dvret) {
+            drs += d;
+            drs += ",";
+        }
+        drs = drs.substr(0,drs.size()-1);
+        drs += "]";
+        cout << " daig-values: " << drs << endl;
+    }
     else if(func=="-pi") {
         string pret = to_string(cpy::Pi());
         cout << " function: numpy.pi" << endl;
