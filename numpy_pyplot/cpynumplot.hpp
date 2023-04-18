@@ -56,7 +56,7 @@ using namespace complex_literals;
 
 namespace cpy {
 
-    // TypeDefs and supporting classes:
+    /// @brief typedef of base matrix concept for supporting the creation of a N-Dimensional Matrix of double values
     typedef struct matrix {
         vector<vector<double>> values;
         int rows;
@@ -64,6 +64,8 @@ namespace cpy {
         string size;    
     } Matrix;
 
+    /// @brief class used to house N-Dimensional Matrix values of doubles. Including base operations. Used with Python
+    /// calls for transfer between NDMatrix (C++) and numpy.NDArray (Python).
     class NDMatrix {
     public:
         Matrix mat;
