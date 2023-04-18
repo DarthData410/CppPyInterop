@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
             cout << " in-value(s)[3]: " << argv[4] << endl;
         }
         
-        vector<double> dvret = cpy::diagvec(in);
+        vector<double> dvret = cpy::DiagVec(in);
         string drs = "[";
         for(double d : dvret) {
             drs += to_string(d);

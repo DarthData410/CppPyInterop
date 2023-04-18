@@ -46,6 +46,7 @@ using namespace complex_literals;
 #define NPARRAY_T "T"
 #define NPARRAY_SZ "size"
 #define NPARRAY_I "item"
+#define NPARRAY_TL "tolist"
 // END NP.ARRAY.*
 
 // matplotlib:
@@ -103,6 +104,26 @@ namespace cpy {
             PyErr_Print();
             throw runtime_error("cpy::modimp - Python Module Load Error");
         }
+        return ret;
+    }
+
+    /// @brief base level cpy function, used to convert a C-vector of doubles to a PyObject of type PyList
+    /// @param v vector of doubles to-be converted
+    /// @return returns new PyObject* of type PyList
+    PyObject *dvecPyList(vector<double> v) {
+        PyObject *np = modimp(NP);
+        PyObject *ret = PyList_New(0);
+
+        for(double d : v) {
+            PyObject *pf = PyFloat_FromDouble(d);
+            int plac = PyList_Append(ret,pf);
+            if(plac!=0) {
+                throw runtime_error("PyList_Append: failed to add C double/PyFloat_FromDouble.");
+            }
+            Py_CLEAR(pf);
+        }
+
+        Py_CLEAR(np);
         return ret;
     }
 
@@ -213,10 +234,53 @@ namespace cpy {
         return ret;
     }
 
-    vector<double> diagvec(array<vector<double>,3> nda) {
+    /// @brief function used to showcase C++ -> Python interop for numpy.diag(x) call. Uses passed in array, of size 3, of
+    /// double based vector(s). Will return a vector of doubles representing the diagonal values of the Python numpy NDarray
+    /// built from the passed in C-array of double based vector(s).
+    /// @param nda C-array of double based vector(s). Up to a 3d matrix.
+    /// @return double based C-vector of numpy.diag(x) values.
+    vector<double> DiagVec(array<vector<double>,3> nda) {
         vector<double> ret;
+        PyObject *dpl1,*dpl2,*dpl3,*dplin;
+        // first vector must contain values:
+        dplin = PyList_New(0);
+        dpl1 = dvecPyList(nda[0]);
+        PyList_Append(dplin,dpl1);
         
+        if(nda[1].size()>0) {
+            dpl2 = dvecPyList(nda[1]);
+            PyList_Append(dplin,dpl2);
+        }
+        if(nda[2].size()>0) {
+            dpl3 = dvecPyList(nda[2]);
+            PyList_Append(dplin,dpl3);
+        }
+
+        Py_CLEAR(dpl1);
+        Py_CLEAR(dpl2);
+        Py_CLEAR(dpl3);
+
+        PyObject *np = modimp(NP);
+        PyObject *dtup = PyTuple_New(1);
+        PyTuple_SetItem(dtup,0,dplin);
+        PyObject *dret = basepy(np,NPDIAG,dtup);
+        PyObject *dretl = basepy(dret,NPARRAY_TL,PyTuple_New(0));
+        Py_ssize_t lsz = PyList_Size(dretl);
         
+        PyObject *dretitup = PyTuple_New(1);
+        for(int i=0;i<lsz;i++) {
+            PyObject *dreti = PyList_GetItem(dretl,i);
+            double dretd = PyFloat_AsDouble(dreti);
+            ret.push_back(dretd);
+            Py_CLEAR(dreti);
+        }
+        
+        Py_CLEAR(dretitup);
+        Py_CLEAR(dretl);
+        Py_CLEAR(dret);
+        Py_CLEAR(dtup);
+        Py_CLEAR(np);
+        Py_CLEAR(dplin);
 
         return ret;
     }

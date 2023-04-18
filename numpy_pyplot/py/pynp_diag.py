@@ -36,4 +36,5 @@ ladin.append(la2)
 ladin.append(la3)
 
 lad = np.diag(ladin)
+
 print(lad)
