@@ -130,19 +130,32 @@ int main(int argc, char *argv[])
         cout << " diag-values: " << drs << endl;
     }
     else if(func=="-mattest") {
-        cpy::NDMatrix m = cpy::NDMatrix(3,3);
+        cpy::NDMatrix m = cpy::NDMatrix(2,3);
         cout << " size: " << m.size() << endl;
         m.set(0,1,0.314);
-        m.set(2,2,7.74);
-        m.set(1,2,3.14);
+        m.set(1,2,7.74);
+        m.set(1,1,3.14);
         m.set(0,2,1.13);
-        m.set(2,0,1.1);
-        cout << " (0,1) get: " << m.get(0,1) << endl;
-        cout << " (2,2) get: " << m.get(2,2) << endl;
-        cout << " (2,0) get: " << m.get(2,0) << endl;
+        m.set(1,0,1.1);
         cout << m.str() << endl;
         cout << m.getcolstr(2) << endl; 
-        cout << m.getrowstr(2) << endl;
+        cout << m.getrowstr(1) << endl;
+        cout << m.sizeofm() << endl;
+        cout << to_string(sizeof(m)) << endl;
+
+        cpy::NDMatrix m8 = cpy::NDMatrix(8,8);
+        cout << " size: " << m8.size() << endl;
+        m8.set(0,1,0.314);
+        m8.set(4,2,7.74);
+        m8.set(6,7,3.14);
+        m8.set(2,4,1.13);
+        m8.set(4,5,1.1);
+        cout << m8.str() << endl;
+        cout << m8.getcolstr(2) << endl; 
+        cout << m8.getrowstr(1) << endl;
+        cout << m8.sizeofm() << endl;
+        cout << to_string(sizeof(m8)) << endl;
+
     }
     else if(func=="-pi") {
         string pret = to_string(cpy::Pi());

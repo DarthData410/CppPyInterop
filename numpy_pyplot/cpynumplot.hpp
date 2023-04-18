@@ -139,6 +139,12 @@ namespace cpy {
             return mat.size;
         }
 
+        string sizeofm() {
+            string ret;
+            ret = to_string(sizeof(mat));
+            return ret;
+        }
+
         string str() {
             string ret = " NDMatrix[" + size() + "]\n";
             
