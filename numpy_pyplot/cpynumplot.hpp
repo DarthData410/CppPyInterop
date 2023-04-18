@@ -123,6 +123,9 @@ namespace cpy {
         PyTuple_SetItem(tp,0,pyx);
         PyObject *pN = basepy(np,tbc,tp);
 
+        if(!PyFloat_Check(pN)) {
+            throw runtime_error(("fatal error with cpy::CST. PyFloat_Check failed for type: %s",tbc));
+        }
         ret = PyFloat_AsDouble(pN);
 
         // Py_CLEAR(s):
