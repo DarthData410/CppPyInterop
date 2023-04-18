@@ -87,7 +87,9 @@ namespace cpy {
         }
         else {
             PyErr_Print();
-            throw runtime_error(("PyObject_GetAttrString failed for: %s",tocall));
+            string rte = "PyObject_GetAttrString failed for:";
+            rte += tocall;
+            throw runtime_error(rte);
         }
     }
 
@@ -124,7 +126,9 @@ namespace cpy {
         PyObject *pN = basepy(np,tbc,tp);
 
         if(!PyFloat_Check(pN)) {
-            throw runtime_error(("fatal error with cpy::CST. PyFloat_Check failed for type: %s",tbc));
+            string rte = "fatal error with cpy::CST. PyFloat_Check failed for type: ";
+            rte += tbc;
+            throw runtime_error(rte);
         }
         ret = PyFloat_AsDouble(pN);
 
