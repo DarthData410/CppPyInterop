@@ -67,17 +67,22 @@ static float pypi_float(string _sr) {
 /// @brief ./cpynumplot command line program main execution point
 int main(int argc, char *argv[])
 {
+    string func;
     format f = format();
     if(argc<2) {
 
-        cerr << " expected usage: ./cpynumplot -<function> <vals> ..." << endl;
-        return 1;
+        //cerr << " expected usage: ./cpynumplot -<function> <vals> ..." << endl;
+        //return 1;
+        func = "-mattest";
+    }
+    else {
+        func = argv[1];
     }
     
     // Initialize cpy from binary argv name: ./cpynumplot
     wchar_t *program = cpy::init(argv[0]);
 
-    string func = argv[1];
+    
     cout << "\n ----- cpynumplot -----" << endl;
     if(func=="-cos") {
         string val = argv[2];
@@ -127,12 +132,17 @@ int main(int argc, char *argv[])
     else if(func=="-mattest") {
         cpy::NDMatrix m = cpy::NDMatrix(3,3);
         cout << " size: " << m.size() << endl;
-        m.set(1,2,0.314);
-        m.set(3,3,7.74);
-        m.set(3,1,1.1);
-        cout << " (1,2) get: " << m.get(1,2) << endl;
-        cout << " (3,3) get: " << m.get(3,3) << endl;
-        cout << " (3,1) get: " << m.get(3,1) << endl;
+        m.set(0,1,0.314);
+        m.set(2,2,7.74);
+        m.set(1,2,3.14);
+        m.set(0,2,1.13);
+        m.set(2,0,1.1);
+        cout << " (0,1) get: " << m.get(0,1) << endl;
+        cout << " (2,2) get: " << m.get(2,2) << endl;
+        cout << " (2,0) get: " << m.get(2,0) << endl;
+        cout << m.str() << endl;
+        cout << m.getcolstr(2) << endl; 
+        cout << m.getrowstr(2) << endl;
     }
     else if(func=="-pi") {
         string pret = to_string(cpy::Pi());

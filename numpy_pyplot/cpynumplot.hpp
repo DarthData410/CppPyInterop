@@ -59,47 +59,106 @@ namespace cpy {
     // TypeDefs and supporting classes:
     typedef struct matrix {
         vector<vector<double>> values;
-        int cols;
         int rows;
+        int cols;
         string size;    
     } Matrix;
-
 
     class NDMatrix {
     private:
         Matrix mat;
-        int cr(int i) {
-            return i-1;
-        }
     public:
-        NDMatrix(int cols, int rows) {
-            mat.cols = cols;
+        NDMatrix(int rows, int cols) {
             mat.rows = rows;
-            mat.size = to_string(cols) + "x" + to_string(rows);
+            mat.cols = cols;
+            mat.size = to_string(rows) + "x" + to_string(cols);
 
-            for(int i=0;i<cols;i++) {
-                vector<double> vrows;
-                for(int x=0;x<rows;x++) {
-                    vrows.push_back(0.0);
+            for(int i=0;i<rows;i++) {
+                vector<double> vcols;
+                for(int x=0;x<cols;x++) {
+                    vcols.push_back(0.0);
                 }
-                mat.values.push_back(vrows);
+                mat.values.push_back(vcols);
             }
         }
 
-        void set(int col, int row, double v) {
-            mat.values[cr(col)][cr(row)] = v;
+        void set(int row, int col, double v) {
+            mat.values[row][col] = v;
         }
 
-        double get(int col, int row) {
-            return mat.values[cr(col)][cr(row)];
+        double get(int row, int col) {
+            return mat.values[row][col];
+        }
+
+        vector<double> getcol(int col) {
+            vector<double> ret;
+
+            for(vector<double> vd : mat.values) {
+                ret.push_back(vd[col]);
+            }
+            return ret;
+        }
+
+        string getcolstr(int col) {
+            string ret = " NDMatrix[col:"+to_string(col)+"] \n";
+            vector<double> cols;
+            cols = getcol(col);
+            for(double d : cols) {
+                ret += "   ";
+                ret += "[";
+                ret += to_string(d);
+                ret += "]\n";
+            }
+            ret = ret.substr(0,ret.size()-1);
+            return ret;
+        }
+
+        vector<double> getrow(int row) {
+            vector<double> ret;
+            ret = mat.values[row];
+            return ret;
+        }
+
+        string getrowstr(int row) {
+            string ret = " NDMatrix[row:"+to_string(row)+"] \n";
+            vector<double> rows;
+            rows = getrow(row);
+            ret += "   ";
+            ret += "[";
+            for(double d : rows) {
+                
+                ret += to_string(d);
+                ret += "|";
+            }
+            ret = ret.substr(0,ret.size()-1);
+            ret += "]";
+            return ret;
         }
 
         string size() {
             return mat.size;
         }
 
-        vector<double> getcol(int col) {
-            return mat.values[col];
+        string str() {
+            string ret = " NDMatrix[" + size() + "]\n";
+            
+            int i = 0;
+            for (vector<double> vd : mat.values) {
+                ret += "   "; // buffer for text align
+                ret += to_string(i);
+                ret += ":[";
+                int x = 0;
+                for (double d : vd) {
+                    ret += to_string(d);
+                    ret += "|";
+                    x++;
+                }
+                ret = ret.substr(0,ret.size()-1);
+                ret += "]\n";
+                i++;
+            }
+            ret = ret.substr(0,ret.size()-1);
+            return ret;
         }
     };
     
@@ -283,8 +342,8 @@ namespace cpy {
         return ret;
     }
 
-    vector<double> DiagVec(vector<vector<double>> vvd) {
-        Matrix m;
+    NDMatrix DiagM(NDMatrix m) {
+        return m;    
         
     }
 
