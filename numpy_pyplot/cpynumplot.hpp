@@ -237,7 +237,7 @@ namespace cpy {
     }
 
     /// @brief Operates upon the passed in NDMatrix object, building out PyObject(s) used with Python
-    /// numpy.diag(x) to return the diagonal values of an numpy NDArray. These values are then converted
+    /// numpy.diag(x) to return the diagonal values of a numpy NDArray. These values are then converted
     /// back into a vector, used to fill, a cleared NDMatrix, populating only the row/col values of the
     /// diagonal values returned.
     /// @param m NDMatrix instance containing values, for Python numpy.diag(x) to be peformed on
