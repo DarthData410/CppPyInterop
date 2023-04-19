@@ -150,31 +150,31 @@ int main(int argc, char *argv[])
     }
     else if(func=="-matrix") {
         
-        cout << " cpy::NDMatrix tests" << endl;
+        cout << " "+f.green+"cpy::NDMatrix tests"+f.none << endl;
         cout << " -------------------" << endl;
-        cout << " Test One: " << endl;
+        cout << " "+f.greentxt+"Test One: "+f.goldtxt+"NDM(3x3)"+f.none << endl;
         cpy::NDMatrix m = cpy::NDMatrix(3,3);
-        cout << " size: " << m.sizestr() << endl;
         m = NDMrand(m);
         cout << m.str() << endl;
+        cout << endl;
     
-        cout << " Test Two: " << endl;
+        cout << " "+f.greentxt+"Test Two: "+f.goldtxt+"NDM(8x8)"+f.none << endl;
         cpy::NDMatrix m8 = cpy::NDMatrix(8,8);
         m8 = NDMrand(m8);
-        cout << " size: " << m8.sizestr() << endl;
         cout << m8.str() << endl;
         cout << m8.getcolstr(4) << endl; 
         cout << m8.getrowstr(4) << endl;
+        cout << endl;
 
-        cout << " Test Three: " << endl;
+        cout << " "+f.greentxt+"Test Three: "+f.goldtxt+"ma"+f.greentxt+"+"+f.goldtxt+"mb"+f.greentxt+"="+f.goldtxt+"mc"+f.none << endl;
         cpy::NDMatrix ma = cpy::NDMatrix(2,2);
         ma = NDMrand(ma);
         cout << ma.str() << endl;
-        cout << " "+f.goldtxt+"+"+f.none+"" << endl;
+        cout << "       "+f.greentxt+"+"+f.none+"" << endl;
         cpy::NDMatrix mb = cpy::NDMatrix(2,2);
         mb = NDMrand(mb);
         cout << mb.str() << endl;
-        cout << " "+f.greentxt+"="+f.none+"" << endl;
+        cout << "       "+f.greentxt+"="+f.none+"" << endl;
         cpy::NDMatrix mc = cpy::NDMatrix::sum(ma,mb);
         cout << mc.str() << endl;
 
