@@ -112,8 +112,7 @@ namespace cpy {
     /// @brief base level cpy function, used to convert a C-vector of doubles to a PyObject of type PyList
     /// @param v vector of doubles to-be converted
     /// @return returns new PyObject* of type PyList
-    PyObject *dvecPyList(vector<double> v) {
-        PyObject *np = modimp(NP);
+    PyObject *dvec2PyList(vector<double> v) {
         PyObject *ret = PyList_New(0);
 
         for(double d : v) {
@@ -125,8 +124,22 @@ namespace cpy {
             Py_CLEAR(pf);
         }
 
-        Py_CLEAR(np);
         return ret;
+    }
+
+    /// @brief Use C-NDMatrix param and converts it to an Array like PyList for use with numpy functions
+    /// @param m NDMatrix instance of use for converstion
+    /// @return Array like PyList, Python PyObject for use with numpy operations
+    PyObject *NDMat2PyList(NDMatrix m) {
+        tuple<int,int> msz = m.size();
+        
+        PyObject *dplin = PyList_New(0);
+        for(int r=0;r<get<0>(msz);r++) {
+            PyObject *dpln =dvec2PyList(m.getrow(r));
+            PyList_Append(dplin,dpln);
+            Py_CLEAR(dpln);
+        }
+        return dplin;
     }
 
     /// @brief Common function, based on t value to return cos,sin or tan value of x param. Call numpy.cos,sin or tan.
@@ -243,15 +256,9 @@ namespace cpy {
     /// @param m NDMatrix instance containing values, for Python numpy.diag(x) to be peformed on
     /// @return NDMatrix of diagonal values only.
     NDMatrix DiagMatrix(NDMatrix m) {
-        tuple<int,int> msz = m.size();
         
-        PyObject *dplin = PyList_New(0);
-        for(int r=0;r<get<0>(msz);r++) {
-            PyObject *dpln =dvecPyList(m.getrow(r));
-            PyList_Append(dplin,dpln);
-            Py_CLEAR(dpln);
-        }
-
+        PyObject *dplin = NDMat2PyList(m);
+        
         PyObject *np = modimp(NP);
         PyObject *dtup = PyTuple_New(1);
         PyTuple_SetItem(dtup,0,dplin);
@@ -278,6 +285,39 @@ namespace cpy {
         Py_CLEAR(np);
 
         return m;
+    }
+
+    /// @brief Converts C-NDMatrix object to a Python numpy.array like object (PyList). Executes 
+    /// numpy.linalg.eigvals(x) that returns an array like object (PyList) of PyComplex elements
+    /// representing the computed eigenvalues of a general matrix. Eigenvectors are NOT returned 
+    /// as part of the computation.
+    /// @param m C-NDMatrix object representing the general matrix to be operated upon
+    /// @return returns a vector of complex<double>(s) representing real() and imag() eigenvalues.
+    vector<complex<double>> EigVals(NDMatrix m) {
+        vector<complex<double>> ret;
+        PyObject *dplin = NDMat2PyList(m);
+        PyObject *npla = modimp(NPLA);
+        PyObject *etup = PyTuple_New(1);
+        PyTuple_SetItem(etup,0,dplin);
+        PyObject *eigvals = basepy(npla,NPLAEIGVS,etup);
+        PyObject *eigvalsl = basepy(eigvals,NPARRAY_TL,PyTuple_New(0));
+        Py_ssize_t lsz = PyList_Size(eigvalsl);
+
+        for(int i=0;i<lsz;i++) {
+            PyObject *dret = PyList_GetItem(eigvalsl,i);
+            Py_complex pcc = PyComplex_AsCComplex(dret);
+            complex<double> cd;
+            cd.real(pcc.real);
+            cd.imag(pcc.imag);
+            ret.push_back(cd);
+        }
+
+        Py_CLEAR(eigvalsl);
+        Py_CLEAR(eigvals);
+        Py_CLEAR(etup);
+        Py_CLEAR(npla);
+        Py_CLEAR(dplin);
+        return ret;
     }
 
     /// @brief function that returns python, numpy.pi value

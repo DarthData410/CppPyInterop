@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
 
         //cerr << " expected usage: ./cpy -<function> <vals> ..." << endl;
         //return 1;
-        func = "-matrix-test";
+        func = "-eigvals";
     }
     else {
         func = argv[1];
@@ -119,6 +119,34 @@ int main(int argc, char *argv[])
         cout << " ----------------------" << endl;
         cout << " in-value(s): " << vals << endl;
         cout << " cos-value(s): " << cosvals << endl;
+    }
+    else if(func=="-eigvals") {
+        int rows = stoi(argv[2]);
+        int cols = stoi(argv[3]);
+        cout << " "+f.greentxt+"cpy::EigVals() tests"+f.none << endl;
+        cout << " -------------------" << endl;
+        cout << " "+f.greentxt+"Test One: "+f.goldtxt+"NDM("+argv[2]+"x"+argv[3]+")"+f.none << endl;
+        cpy::NDMatrix m = cpy::NDMatrix(rows,cols);
+        m = NDMrand(m);
+        vector<complex<double>> eigvals = cpy::EigVals(m);
+        cout << m.str() << endl;
+        cout << endl;
+        string es;
+        es = " eigvals: [";
+        for(complex<double> cd : eigvals) {
+            es += to_string(cd.real()) + " ";
+            
+            if(cd.imag()!=0) {
+                es += to_string(cd.imag());
+            }
+            else {
+                es += " ";
+            }
+            es += "|";
+        }
+        es = es.substr(0,es.size()-1);
+        es += "]";
+        cout << es << endl;
     }
     else if(func=="-matrix-diag-test") {
         cout << " "+f.greentxt+"cpy::DiagMatrix() tests"+f.none << endl;
