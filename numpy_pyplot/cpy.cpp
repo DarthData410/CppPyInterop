@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
         cout << m.str() << endl;
         cout << endl;
     
-        cout << " "+f.greentxt+"Test Two: "+f.goldtxt+"NDM(8x8)"+f.none << endl;
+        cout << " "+f.greentxt+"Test Two: "+f.goldtxt+"NDM(8x8) Col[4]/Row[4]"+f.none << endl;
         cpy::NDMatrix m8 = cpy::NDMatrix(8,8);
         m8 = NDMrand(m8);
         cout << m8.str() << endl;
