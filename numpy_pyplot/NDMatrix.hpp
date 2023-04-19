@@ -58,18 +58,34 @@ namespace cpy {
             return ret;
         }
 
+        /// @brief Adds left+right NDMatrix instances
+        /// @param left NDMatrix left
+        /// @param right NDMatrix right
+        /// @return NDMatrix with values that are the sum of left+right NDMatrix values
         static NDMatrix add(NDMatrix left, NDMatrix right) {
             return oper(left,right,0);
         }
 
+        /// @brief Subtracts left-right NDMatrix instances
+        /// @param left NDMatrix left
+        /// @param right NDMatrix right
+        /// @return NDMatrix with values that are the sum of left-right NDMatrix values
         static NDMatrix subtract(NDMatrix left, NDMatrix right) {
             return oper(left,right,1);
         }
 
+        /// @brief Multiples left*right NDMatrix instances
+        /// @param left NDMatrix left
+        /// @param right NDMatrix right
+        /// @return NDMatrix with values that are the sum of left*right NDMatrix values
         static NDMatrix multiply(NDMatrix left, NDMatrix right) {
             return oper(left,right,2);
         }
 
+        /// @brief Divides left/right NDMatrix instances
+        /// @param left NDMatrix left
+        /// @param right NDMatrix right
+        /// @return NDMatrix with values that are the sum of left/right NDMatrix values
         static NDMatrix divide(NDMatrix left, NDMatrix right) {
             return oper(left,right,3);
         }
