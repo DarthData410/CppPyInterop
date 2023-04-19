@@ -236,26 +236,31 @@ namespace cpy {
         return ret;
     }
 
+    /// @brief Operates upon the passed in NDMatrix object, building out PyObject(s) used with Python
+    /// numpy.diag(x) to return the diagonal values of an numpy NDArray. These values are then converted
+    /// back into a vector, used to fill, a cleared NDMatrix, populating only the row/col values of the
+    /// diagonal values returned.
+    /// @param m NDMatrix instance containing values, for Python numpy.diag(x) to be peformed on
+    /// @return NDMatrix of diagonal values only.
     NDMatrix DiagMatrix(NDMatrix m) {
-    
-            tuple<int,int> msz = m.size();
+        tuple<int,int> msz = m.size();
+        
+        PyObject *dplin = PyList_New(0);
+        for(int r=0;r<get<0>(msz);r++) {
+            PyObject *dpln =dvecPyList(m.getrow(r));
+            PyList_Append(dplin,dpln);
+            Py_CLEAR(dpln);
+        }
 
-            PyObject *dplin = PyList_New(0);
-            for(int r=0;r<get<0>(msz);r++) {
-                PyObject *dpln =dvecPyList(m.getrow(r));
-                PyList_Append(dplin,dpln);
-                Py_CLEAR(dpln);
-            }
-
-            PyObject *np = modimp(NP);
-            PyObject *dtup = PyTuple_New(1);
-            PyTuple_SetItem(dtup,0,dplin);
-            PyObject *dret = basepy(np,NPDIAG,dtup);
-            PyObject *dretl = basepy(dret,NPARRAY_TL,PyTuple_New(0));
-            Py_ssize_t lsz = PyList_Size(dretl);
+        PyObject *np = modimp(NP);
+        PyObject *dtup = PyTuple_New(1);
+        PyTuple_SetItem(dtup,0,dplin);
+        PyObject *dret = basepy(np,NPDIAG,dtup);
+        PyObject *dretl = basepy(dret,NPARRAY_TL,PyTuple_New(0));
+        Py_ssize_t lsz = PyList_Size(dretl);
                 
-            vector<double> dretsv;
-            double dretd;
+        vector<double> dretsv;
+        double dretd;
         for(int i=0;i<lsz;i++) {
             PyObject *dreti = PyList_GetItem(dretl,i);
             dretd = PyFloat_AsDouble(dreti);
@@ -267,63 +272,12 @@ namespace cpy {
             m.set(i,i,dretsv[i]);
         }
 
+        Py_CLEAR(dretl);
+        Py_CLEAR(dret);
+        Py_CLEAR(dtup);
+        Py_CLEAR(np);
+
         return m;
-    }
-
-    /// @brief function used to showcase C++ -> Python interop for numpy.diag(x) call. Uses passed in array, of size 3, of
-    /// double based vector(s). Will return a vector of doubles representing the diagonal values of the Python numpy NDarray
-    /// built from the passed in C-array of double based vector(s).
-    /// @param nda C-array of double based vector(s). Up to an array, size of 3 vector<double> values.
-    /// @return double based C-vector of numpy.diag(x) values.
-    vector<double> DiagVec(array<vector<double>,3> nda) {
-        try {
-            vector<double> ret;
-            PyObject *dpl1,*dpl2,*dpl3,*dplin;
-            // first vector must contain values:
-            dplin = PyList_New(0);
-            dpl1 = dvecPyList(nda[0]);
-            PyList_Append(dplin,dpl1);
-            
-            if(nda[1].size()>0) {
-                dpl2 = dvecPyList(nda[1]);
-                PyList_Append(dplin,dpl2);
-            }
-            if(nda[2].size()>0) {
-                dpl3 = dvecPyList(nda[2]);
-                PyList_Append(dplin,dpl3);
-            }
-
-            if(dpl1!=NULL) { Py_CLEAR(dpl1); }
-            if(dpl2!=NULL) { Py_CLEAR(dpl2); }
-            if(dpl3!=NULL) { Py_CLEAR(dpl3); }
-
-            PyObject *np = modimp(NP);
-            PyObject *dtup = PyTuple_New(1);
-            PyTuple_SetItem(dtup,0,dplin);
-            PyObject *dret = basepy(np,NPDIAG,dtup);
-            PyObject *dretl = basepy(dret,NPARRAY_TL,PyTuple_New(0));
-            Py_ssize_t lsz = PyList_Size(dretl);
-            
-            PyObject *dretitup = PyTuple_New(1);
-            for(int i=0;i<lsz;i++) {
-                PyObject *dreti = PyList_GetItem(dretl,i);
-                double dretd = PyFloat_AsDouble(dreti);
-                ret.push_back(dretd);
-            }
-            
-            Py_CLEAR(dretitup);
-            Py_CLEAR(dretl);
-            Py_CLEAR(dret);
-            Py_CLEAR(dtup);
-            Py_CLEAR(np);
-            Py_CLEAR(dplin);
-
-            return ret;
-        }
-        catch(...) {
-            PyErr_Print();
-            throw runtime_error("fatal issues with cpy::diagvec execution.");
-        }
     }
 
     /// @brief function that returns python, numpy.pi value
