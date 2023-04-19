@@ -64,6 +64,25 @@ static float pypi_float(string _sr) {
     return ret;
 }
 
+/// @brief Generate cpy::NDMatrix random values, based on inm size. Calls cpy::Random() [Python numpy.random.random]
+/// @param inm cpy::NDMatrix used populating random values based on size
+/// @return Returns cpy::NDMatrix, populated with random values
+static cpy::NDMatrix NDMrand(cpy::NDMatrix inm) {
+    inm.clear();
+    tuple<int,int> inmsz = inm.size();
+    int mrows = get<0>(inmsz);
+    int mcols = get<1>(inmsz);
+
+    for(int i=0;i<mrows;i++) {
+        for(int x=0;x<mcols;x++) {
+            double rdv = cpy::Random();
+            inm.set(i,x,rdv);  
+        }
+    }
+
+    return inm;
+}
+
 /// @brief ./cpynumplot command line program main execution point
 int main(int argc, char *argv[])
 {
@@ -73,7 +92,7 @@ int main(int argc, char *argv[])
 
         //cerr << " expected usage: ./cpy -<function> <vals> ..." << endl;
         //return 1;
-        func = "-mattest";
+        func = "-matrix";
     }
     else {
         func = argv[1];
@@ -129,39 +148,33 @@ int main(int argc, char *argv[])
         drs += "]";
         cout << " diag-values: " << drs << endl;
     }
-    else if(func=="-mattest") {
-        cpy::NDMatrix m = cpy::NDMatrix(2,3);
-        cout << " size: " << m.size() << endl;
-        m.set(0,1,0.314);
-        m.set(1,2,7.74);
-        m.set(1,1,3.14);
-        m.set(0,2,1.13);
-        m.set(1,0,1.1);
+    else if(func=="-matrix") {
+        
+        cout << " cpy::NDMatrix tests" << endl;
+        cout << " -------------------" << endl;
+        cout << " Test One: " << endl;
+        cpy::NDMatrix m = cpy::NDMatrix(3,3);
+        cout << " size: " << m.sizestr() << endl;
+        m = NDMrand(m);
         cout << m.str() << endl;
-        cout << m.getcolstr(2) << endl; 
-        cout << m.getrowstr(1) << endl;
-        cout << m.sizeofm() << endl;
-
+    
+        cout << " Test Two: " << endl;
         cpy::NDMatrix m8 = cpy::NDMatrix(8,8);
-        cout << " size: " << m8.size() << endl;
-        m8.set(0,1,0.314);
-        m8.set(4,2,7.74);
-        m8.set(6,7,3.14);
-        m8.set(2,4,1.13);
-        m8.set(4,5,1.1);
+        m8 = NDMrand(m8);
+        cout << " size: " << m8.sizestr() << endl;
         cout << m8.str() << endl;
-        cout << m8.getcolstr(2) << endl; 
-        cout << m8.getrowstr(1) << endl;
-        cout << m8.sizeofm() << endl;
+        cout << m8.getcolstr(4) << endl; 
+        cout << m8.getrowstr(4) << endl;
 
+        cout << " Test Three: " << endl;
         cpy::NDMatrix ma = cpy::NDMatrix(2,2);
+        ma = NDMrand(ma);
+        cout << ma.str() << endl;
+        cout << " "+f.goldtxt+"+"+f.none+"" << endl;
         cpy::NDMatrix mb = cpy::NDMatrix(2,2);
-        ma.set(0,0,1.1);
-        ma.set(1,0,2.2);
-        ma.set(1,1,3.14);
-        mb.set(0,1,2);
-        mb.set(0,0,7.8);
-        mb.set(1,1,2);
+        mb = NDMrand(mb);
+        cout << mb.str() << endl;
+        cout << " "+f.greentxt+"="+f.none+"" << endl;
         cpy::NDMatrix mc = cpy::NDMatrix::sum(ma,mb);
         cout << mc.str() << endl;
 
