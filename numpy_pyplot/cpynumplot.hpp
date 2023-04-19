@@ -236,15 +236,44 @@ namespace cpy {
         return ret;
     }
 
-    NDMatrix DiagM(NDMatrix m) {
-        return m;    
-        
+    NDMatrix DiagMatrix(NDMatrix m) {
+    
+            tuple<int,int> msz = m.size();
+
+            PyObject *dplin = PyList_New(0);
+            for(int r=0;r<get<0>(msz);r++) {
+                PyObject *dpln =dvecPyList(m.getrow(r));
+                PyList_Append(dplin,dpln);
+                Py_CLEAR(dpln);
+            }
+
+            PyObject *np = modimp(NP);
+            PyObject *dtup = PyTuple_New(1);
+            PyTuple_SetItem(dtup,0,dplin);
+            PyObject *dret = basepy(np,NPDIAG,dtup);
+            PyObject *dretl = basepy(dret,NPARRAY_TL,PyTuple_New(0));
+            Py_ssize_t lsz = PyList_Size(dretl);
+                
+            vector<double> dretsv;
+            double dretd;
+        for(int i=0;i<lsz;i++) {
+            PyObject *dreti = PyList_GetItem(dretl,i);
+            dretd = PyFloat_AsDouble(dreti);
+            dretsv.push_back(dretd);
+        }
+            
+        m.clear();
+        for(long unsigned int i=0;i<dretsv.size();i++) {
+            m.set(i,i,dretsv[i]);
+        }
+
+        return m;
     }
 
     /// @brief function used to showcase C++ -> Python interop for numpy.diag(x) call. Uses passed in array, of size 3, of
     /// double based vector(s). Will return a vector of doubles representing the diagonal values of the Python numpy NDarray
     /// built from the passed in C-array of double based vector(s).
-    /// @param nda C-array of double based vector(s). Up to a 3d matrix.
+    /// @param nda C-array of double based vector(s). Up to an array, size of 3 vector<double> values.
     /// @return double based C-vector of numpy.diag(x) values.
     vector<double> DiagVec(array<vector<double>,3> nda) {
         try {
@@ -280,7 +309,6 @@ namespace cpy {
                 PyObject *dreti = PyList_GetItem(dretl,i);
                 double dretd = PyFloat_AsDouble(dreti);
                 ret.push_back(dretd);
-                Py_CLEAR(dreti);
             }
             
             Py_CLEAR(dretitup);

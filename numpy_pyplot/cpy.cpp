@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
 
         //cerr << " expected usage: ./cpy -<function> <vals> ..." << endl;
         //return 1;
-        func = "-matrix";
+        func = "-matrix-test";
     }
     else {
         func = argv[1];
@@ -148,9 +148,23 @@ int main(int argc, char *argv[])
         drs += "]";
         cout << " diag-values: " << drs << endl;
     }
-    else if(func=="-matrix") {
+    else if(func=="-matrix-diag-test") {
+        cout << " "+f.greentxt+"cpy::DiagMatrix() tests"+f.none << endl;
+        cout << " -------------------" << endl;
+        cout << " "+f.greentxt+"Test One: "+f.goldtxt+"NDM("+argv[2]+"x"+argv[3]+")"+f.none << endl;
+        int rows = stoi(argv[2]);
+        int cols = stoi(argv[3]);
+        cpy::NDMatrix m = cpy::NDMatrix(rows,cols);
+        m = NDMrand(m);
+        cout << m.str() << endl;
+        cout << endl;
+        m = cpy::DiagMatrix(m);
+        cout << m.str() << endl;
+        cout << endl; 
+    }
+    else if(func=="-matrix-test") {
         
-        cout << " "+f.green+"cpy::NDMatrix tests"+f.none << endl;
+        cout << " "+f.greentxt+"cpy::NDMatrix tests"+f.none << endl;
         cout << " -------------------" << endl;
         cout << " "+f.greentxt+"Test One: "+f.goldtxt+"NDM(3x3)"+f.none << endl;
         cpy::NDMatrix m = cpy::NDMatrix(3,3);
@@ -166,9 +180,10 @@ int main(int argc, char *argv[])
         cout << m8.getrowstr(4) << endl;
         cout << endl;
 
-        cpy::NDMatrix ma = cpy::NDMatrix(2,2);
-        cpy::NDMatrix mb = cpy::NDMatrix(2,2);
-        cpy::NDMatrix mc = cpy::NDMatrix(2,2);
+        // cpy::NDMatrix basic operation examples:
+        cpy::NDMatrix ma = cpy::NDMatrix(4,4);
+        cpy::NDMatrix mb = cpy::NDMatrix(4,4);
+        cpy::NDMatrix mc = cpy::NDMatrix(4,4);
         cout << " "+f.greentxt+"Test Three: "+f.goldtxt+"ma"+f.greentxt+"+"+f.goldtxt+"mb"+f.greentxt+"="+f.goldtxt+"mc"+f.none << endl;
         ma = NDMrand(ma);
         cout << ma.str() << endl;
