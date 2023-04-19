@@ -27,12 +27,12 @@ namespace cpy {
         Matrix mat;
 
     public:
-        /// @brief NDMatrix sum function. Checks for 
-        /// @param left 
-        /// @param right 
-        /// @return 
+        /// @brief NDMatrix sum function, adding left+right values. Checks for NDMatrix size matching. Throws runtime_error() if not.
+        /// @param left NDMatrix left, to-be-added with right
+        /// @param right NDMatrix right, to-be-added with left
+        /// @return sum of left & right, same sized, matrices
         static NDMatrix sum(NDMatrix left, NDMatrix right) {
-            if(left.sizestr()!=right.sizestr()) {
+            if(left.size()!=right.size()) {
                 throw runtime_error("cpy::NDMatrix sum(left,right) - size mismatch. NDMatrix sizes must match for sum operation.");
             }
             NDMatrix ret = NDMatrix(left.mat.rows,left.mat.cols);
@@ -47,6 +47,9 @@ namespace cpy {
             return ret;
         }
 
+        /// @brief NDMatrix initializer
+        /// @param rows number of rows for NDMatrix
+        /// @param cols number of cols for NDMatrix
         NDMatrix(int rows, int cols) {
             mat.rows = rows;
             mat.cols = cols;
@@ -54,6 +57,7 @@ namespace cpy {
             clear();
         }
 
+        /// @brief Clears all values for instanct of NDMatrix
         void clear() {
             mat.values.clear();
             for(int i=0;i<mat.rows;i++) {
@@ -65,14 +69,25 @@ namespace cpy {
             }
         }
 
+        /// @brief Sets double value at row x col for instance of NDMatrix
+        /// @param row row for double value
+        /// @param col column for double value
+        /// @param v double value for row x column
         void set(int row, int col, double v) {
             mat.values[row][col] = v;
         }
 
+        /// @brief Gets double value at row x col for instance of NDMatrix
+        /// @param row row for double value
+        /// @param col column for double value
+        /// @return double value from row x column for instance of NDMatrix
         double get(int row, int col) {
             return mat.values[row][col];
         }
 
+        /// @brief C-vector<double>(s) values of column for instance of NDMatrix
+        /// @param col column of values to retrieve
+        /// @return C-vector<double>(s) of column values
         vector<double> getcol(int col) {
             vector<double> ret;
 
@@ -82,6 +97,9 @@ namespace cpy {
             return ret;
         }
 
+        /// @brief String representation of NDMatrix.getcol(int col)
+        /// @param col column of values to retrieve
+        /// @return String representation of NDMatrix.getcol()
         string getcolstr(int col) {
             string ret = " NDMatrix[col:"+to_string(col)+"] \n";
             vector<double> cols;
@@ -96,12 +114,18 @@ namespace cpy {
             return ret;
         }
 
+        /// @brief C-vector<double>(s) values of rows for instance of NDMatrix
+        /// @param row row of values to retrieve
+        /// @return C-vector<double>(s) of rows values
         vector<double> getrow(int row) {
             vector<double> ret;
             ret = mat.values[row];
             return ret;
         }
 
+        /// @brief String representation of NDMatrix.getrow(int row)
+        /// @param row row of values to retrieve
+        /// @return String representation of NDMatrix.getrow()
         string getrowstr(int row) {
             string ret = " NDMatrix[row:"+to_string(row)+"] \n";
             vector<double> rows;
@@ -118,16 +142,22 @@ namespace cpy {
             return ret;
         }
 
+        /// @brief Generates a tuple of {rows,cols} representing the NDMatrix size
+        /// @return tuple{rows,cols} (tuple<int,int>)
         tuple<int,int> size() {
             tuple<int, int> ret;
             ret = {mat.rows,mat.cols};
             return ret;
         }
 
+        /// @brief String representation of NDMatrix size
+        /// @return NDMatrix.size string value
         string sizestr() {
             return mat.size;
         }
 
+        /// @brief String representation of NDMatrix
+        /// @return Returns both NDMatrix[sizestr()], along with actual NDMatrix rows:cols:values
         string str() {
             string ret = " NDMatrix[" + sizestr() + "]\n";
             
