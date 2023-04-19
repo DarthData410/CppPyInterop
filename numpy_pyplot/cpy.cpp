@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
     format f = format();
     if(argc<2) {
 
-        //cerr << " expected usage: ./cpynumplot -<function> <vals> ..." << endl;
+        //cerr << " expected usage: ./cpy -<function> <vals> ..." << endl;
         //return 1;
         func = "-mattest";
     }
@@ -79,11 +79,11 @@ int main(int argc, char *argv[])
         func = argv[1];
     }
     
-    // Initialize cpy from binary argv name: ./cpynumplot
+    // Initialize cpy from binary argv name: ./cpy
     wchar_t *program = cpy::init(argv[0]);
 
     
-    cout << "\n ----- cpynumplot -----" << endl;
+    cout << "\n ----- cpy -----" << endl;
     if(func=="-cos") {
         string val = argv[2];
         float _f = pypi_float(val);
@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
     else if(func=="-pyplot") {
         
         if(argc<5) {
-            cerr << " "+f.red+"usage error:"+f.none+" \n expected usage: ./cpynumplot -pyplot <start> <stop> <step> \n "+f.blue+"ie:"+f.none+" "+f.greentxt+"./cpynumplot"+f.goldtxt+" -pyplot"+f.none+" 0.1 3"+f.goldtxt+"*"+f.greentxt+"pi"+f.none+" 0.12 \n" << endl;
+            cerr << " "+f.red+"usage error:"+f.none+" \n expected usage: ./cpy -pyplot <start> <stop> <step> \n "+f.blue+"ie:"+f.none+" "+f.greentxt+"./cpynumplot"+f.goldtxt+" -pyplot"+f.none+" 0.1 3"+f.goldtxt+"*"+f.greentxt+"pi"+f.none+" 0.12 \n" << endl;
             return 1; 
         }
 
