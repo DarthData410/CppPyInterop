@@ -1,8 +1,13 @@
+// file: format.hpp
+// author: J. Brandon George | darth.data410@gmail.com | @pyfryday
+// contents used for testing against C++ <-> Python interop, using Python.h from within C++ apps.
+// *****************************************************************************************************
 #include <iostream>
 #include <string>
 
 using namespace std;
 
+/// @brief Terminal text color formatting utility class. Used to assist in command line apps.
 class format{
 public:
     string gray = "\e[0;100m";

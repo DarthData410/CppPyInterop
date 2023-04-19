@@ -1,3 +1,7 @@
+// file: NDMatrix.hpp
+// author: J. Brandon George | darth.data410@gmail.com | @pyfryday
+// contents used for testing against C++ <-> Python interop, using Python.h from within C++ apps.
+// *****************************************************************************************************
 #include <iostream>
 #include <vector>
 #include <string>
@@ -19,10 +23,14 @@ namespace cpy {
     /// calls for transfer between NDMatrix (C++) and numpy.NDArray (Python).
     class NDMatrix {
     private:
+        /// @brief internal storage struct for NDMatrix object instance
         Matrix mat;
 
     public:
-
+        /// @brief NDMatrix sum function. Checks for 
+        /// @param left 
+        /// @param right 
+        /// @return 
         static NDMatrix sum(NDMatrix left, NDMatrix right) {
             if(left.sizestr()!=right.sizestr()) {
                 throw runtime_error("cpy::NDMatrix sum(left,right) - size mismatch. NDMatrix sizes must match for sum operation.");
