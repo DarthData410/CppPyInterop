@@ -1,9 +1,9 @@
-// file: cnumpy.cpp
+// file: cpy.cpp
 // author: J. Brandon George | darth.data410@gmail.com | @pyfryday
 // contents used for testing against C++ <-> Python interop, using Python.h from within C++ apps.
 // ------------------------------------------
 // Command line execution app used for interop between C++ -> Python. Enabled by Python.h header file only.
-// Showcasing soecific usage of numpy and matplotlib.pyplot modules.
+// Showcasing specific usage of numpy and matplotlib.pyplot modules.
 // *****************************************************************************************************
 
 #include "cpynumplot.hpp"
