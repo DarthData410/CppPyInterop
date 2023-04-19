@@ -166,17 +166,52 @@ int main(int argc, char *argv[])
         cout << m8.getrowstr(4) << endl;
         cout << endl;
 
-        cout << " "+f.greentxt+"Test Three: "+f.goldtxt+"ma"+f.greentxt+"+"+f.goldtxt+"mb"+f.greentxt+"="+f.goldtxt+"mc"+f.none << endl;
         cpy::NDMatrix ma = cpy::NDMatrix(2,2);
+        cpy::NDMatrix mb = cpy::NDMatrix(2,2);
+        cpy::NDMatrix mc = cpy::NDMatrix(2,2);
+        cout << " "+f.greentxt+"Test Three: "+f.goldtxt+"ma"+f.greentxt+"+"+f.goldtxt+"mb"+f.greentxt+"="+f.goldtxt+"mc"+f.none << endl;
         ma = NDMrand(ma);
         cout << ma.str() << endl;
         cout << "       "+f.greentxt+"+"+f.none+"" << endl;
-        cpy::NDMatrix mb = cpy::NDMatrix(2,2);
         mb = NDMrand(mb);
         cout << mb.str() << endl;
         cout << "       "+f.greentxt+"="+f.none+"" << endl;
-        cpy::NDMatrix mc = cpy::NDMatrix::sum(ma,mb);
+        mc = cpy::NDMatrix::add(ma,mb);
         cout << mc.str() << endl;
+        cout << endl;
+
+        cout << " "+f.greentxt+"Test Four: "+f.goldtxt+"ma"+f.greentxt+"-"+f.goldtxt+"mb"+f.greentxt+"="+f.goldtxt+"mc"+f.none << endl;
+        ma = NDMrand(ma);
+        cout << ma.str() << endl;
+        cout << "       "+f.greentxt+"-"+f.none+"" << endl;
+        mb = NDMrand(mb);
+        cout << mb.str() << endl;
+        cout << "       "+f.greentxt+"="+f.none+"" << endl;
+        mc = cpy::NDMatrix::subtract(ma,mb);
+        cout << mc.str() << endl;
+        cout << endl;
+
+        cout << " "+f.greentxt+"Test Five: "+f.goldtxt+"ma"+f.greentxt+"*"+f.goldtxt+"mb"+f.greentxt+"="+f.goldtxt+"mc"+f.none << endl;
+        ma = NDMrand(ma);
+        cout << ma.str() << endl;
+        cout << "       "+f.greentxt+"*"+f.none+"" << endl;
+        mb = NDMrand(mb);
+        cout << mb.str() << endl;
+        cout << "       "+f.greentxt+"="+f.none+"" << endl;
+        mc = cpy::NDMatrix::multiply(ma,mb);
+        cout << mc.str() << endl;
+        cout << endl;
+
+        cout << " "+f.greentxt+"Test six: "+f.goldtxt+"ma"+f.greentxt+"/"+f.goldtxt+"mb"+f.greentxt+"="+f.goldtxt+"mc"+f.none << endl;
+        ma = NDMrand(ma);
+        cout << ma.str() << endl;
+        cout << "       "+f.greentxt+"/"+f.none+"" << endl;
+        mb = NDMrand(mb);
+        cout << mb.str() << endl;
+        cout << "       "+f.greentxt+"="+f.none+"" << endl;
+        mc = cpy::NDMatrix::divide(ma,mb);
+        cout << mc.str() << endl;
+        cout << endl;
 
     }
     else if(func=="-pi") {

@@ -27,11 +27,14 @@ namespace cpy {
         Matrix mat;
 
     public:
-        /// @brief NDMatrix sum function, adding left+right values. Checks for NDMatrix size matching. Throws runtime_error() if not.
-        /// @param left NDMatrix left, to-be-added with right
-        /// @param right NDMatrix right, to-be-added with left
-        /// @return sum of left & right, same sized, matrices
-        static NDMatrix sum(NDMatrix left, NDMatrix right) {
+        
+        /// @brief NDMatrix basic math operation functions, left+right|left-right|left*right|left/right values. 
+        /// Checks for NDMatrix size matching. Throws runtime_error() if not.
+        /// @param left NDMatrix left, to-be-oper with right
+        /// @param right NDMatrix right, to-be-oper with left
+        /// @param t Type of operation: 0=sum,1=subtract,2=multiple,3=divide
+        /// @return operation of left & right, same sized, matrices
+        static NDMatrix oper(NDMatrix left, NDMatrix right, int t) {
             if(left.size()!=right.size()) {
                 throw runtime_error("cpy::NDMatrix sum(left,right) - size mismatch. NDMatrix sizes must match for sum operation.");
             }
@@ -39,12 +42,36 @@ namespace cpy {
 
             for(int i=0;i<left.mat.rows;i++) {
                 for(int x=0;x<left.mat.cols;x++) {
-                    double sv = (left.mat.values[i][x]+right.mat.values[i][x]);
+                    double sv;
+                    switch(t) {
+                        case 0 : sv = (left.mat.values[i][x]+right.mat.values[i][x]); break;
+                        case 1 : sv = (left.mat.values[i][x]-right.mat.values[i][x]); break;
+                        case 2 : sv = (left.mat.values[i][x]*right.mat.values[i][x]); break;
+                        case 3 : sv = (left.mat.values[i][x]/right.mat.values[i][x]); break;
+                        default: sv = 0.0; break;
+                    }
+                    
                     ret.set(i,x,sv);
                 }
             }
 
             return ret;
+        }
+
+        static NDMatrix add(NDMatrix left, NDMatrix right) {
+            return oper(left,right,0);
+        }
+
+        static NDMatrix subtract(NDMatrix left, NDMatrix right) {
+            return oper(left,right,1);
+        }
+
+        static NDMatrix multiply(NDMatrix left, NDMatrix right) {
+            return oper(left,right,2);
+        }
+
+        static NDMatrix divide(NDMatrix left, NDMatrix right) {
+            return oper(left,right,3);
         }
 
         /// @brief NDMatrix initializer
