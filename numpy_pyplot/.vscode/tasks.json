@@ -26,7 +26,7 @@
 				"-lpython3.10",
 				"-lcrypt",
 				"-o",
-				"${fileDirname}/cpynumplot"
+				"${fileDirname}/cpy"
 			],
 			"options": {
 				"cwd": "${fileDirname}"
