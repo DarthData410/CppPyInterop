@@ -133,6 +133,19 @@ int main(int argc, char *argv[])
         m = cpy::DiagMatrix(m);
         cout << m.str() << endl;
         cout << endl; 
+
+        cout << " "+f.greentxt+"Test Two: "+f.goldtxt+"NDM("+argv[2]+"x"+argv[3]+") mc"+f.greentxt+"="+f.goldtxt+"ma"+f.greentxt+"-DiagMatrix("+f.goldtxt+"ma"+f.greentxt+")"+f.none << endl;
+        cpy::NDMatrix ma = cpy::NDMatrix(rows,cols);
+        ma = NDMrand(ma);
+        cpy::NDMatrix mb = cpy::DiagMatrix(ma);
+        cpy::NDMatrix mc = cpy::NDMatrix::subtract(ma,mb);
+        cout << ma.str() << endl;
+        cout << "       "+f.greentxt+"- DiagMatrix():"+f.none+"" << endl;
+        cout << mb.str() << endl;
+        cout << "       "+f.greentxt+"="+f.none+"" << endl;
+        cout << mc.str() << endl;
+        cout << endl;
+
     }
     else if(func=="-matrix-test") {
         
