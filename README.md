@@ -32,7 +32,13 @@ The following section list usage information for ./cpy:
     
    <img src="https://github.com/DarthData410/CppPyInterop/blob/main/numpy_pyplot/saved_plots/Example_2.png?raw=true">
 
-  3. -eigvals:
+ 3. -matrix-diag-test:
+   Uses 2 parameters passed in, the rows and columns of a test NDMatrix. Then NDMatrices of that size are used throughout the test execution. This includes showcase of generating random numbers from numpy.random.random via Python.h within C++. Further the finding of diagonal values of an numpy.NDArray built from the custom cpy::NDMatrix found in this project. 
+
+   Example(s): ./cpy -matrix-diag-test 4 4
+   Output example shown in the following screen shot:
+   <img src="https://github.com/DarthData410/CppPyInterop/blob/main/numpy_pyplot/imgs/cpy_matrix_diag_test_4x4.png?raw=true">
+
     Uses two paramters to determine the size of a general NDMatrix. Will then randomly generate matrix values and populate. Finally calls the cpy::EigVals(NDMatrix m) which executes logic converting the NDMatrix to a numpy.array (like) object for calling numpy.lingalg.eigvals(x). The return is a vector of C-type complex values. cpy::EigVals checks to make sure the passed in NDMatrix is "square" (ie: n * rows = n * cols). If not cpy throws a runtime_error() stating NDMatrix must be square. (ie: 2x2, 3x3, 4x4, etc.)
 
     <img src="https://github.com/DarthData410/CppPyInterop/blob/main/numpy_pyplot/imgs/cpy_eigvals_ndm.png?raw=true">
