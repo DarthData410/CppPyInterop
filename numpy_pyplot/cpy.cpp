@@ -6,8 +6,8 @@
 // Showcasing specific usage of numpy and matplotlib.pyplot modules.
 // *****************************************************************************************************
 
-#include "cpynumplot.hpp"
-#include "format.hpp"
+#include "include/cpynumplot.hpp"
+#include "include/format.hpp"
 
 /// @brief Converts a string of doubles, checking for separator, and converts to a vector of doubles
 /// @param _s string value of doubles with separator
