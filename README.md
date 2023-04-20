@@ -32,13 +32,9 @@ The following section list usage information for ./cpy:
     
    <img src="https://github.com/DarthData410/CppPyInterop/blob/main/numpy_pyplot/saved_plots/Example_2.png?raw=true">
 
- 3. -matrix-diag-test:
+ 3. -eigvals:
    Uses two paramters to determine the size of a general NDMatrix. Will then randomly generate matrix values and populate. Finally calls the cpy::EigVals(NDMatrix m) which executes logic converting the NDMatrix to a numpy.array (like) object for calling numpy.lingalg.eigvals(x). The return is a vector of C-type complex values. cpy::EigVals checks to make sure the passed in NDMatrix is "square" (ie: n * rows = n * cols). If not cpy throws a runtime_error() stating NDMatrix must be square. (ie: 2x2, 3x3, 4x4, etc.). 
 
-   Example(s): ./cpy -matrix-diag-test 4 4
+   Example(s): ./cpy -eigvals 2 2
    Output example shown in the following screen shot:
-   <img src="https://github.com/DarthData410/CppPyInterop/blob/main/numpy_pyplot/imgs/cpy_matrix_diag_test_4x4.png?raw=true">
-
-    Uses two paramters to determine the size of a general NDMatrix. Will then randomly generate matrix values and populate. Finally calls the cpy::EigVals(NDMatrix m) which executes logic converting the NDMatrix to a numpy.array (like) object for calling numpy.lingalg.eigvals(x). The return is a vector of C-type complex values. cpy::EigVals checks to make sure the passed in NDMatrix is "square" (ie: n * rows = n * cols). If not cpy throws a runtime_error() stating NDMatrix must be square. (ie: 2x2, 3x3, 4x4, etc.)
-
-    <img src="https://github.com/DarthData410/CppPyInterop/blob/main/numpy_pyplot/imgs/cpy_eigvals_ndm.png?raw=true">
+   <img src="https://github.com/DarthData410/CppPyInterop/blob/main/numpy_pyplot/imgs/cpy_eigvals_ndm.png?raw=true">
