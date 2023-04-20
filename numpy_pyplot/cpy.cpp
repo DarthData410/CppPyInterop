@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
         string val = argv[2];
         float _f = pypi_float(val);
         double retv = cpy::CST(_f,0);
-        cout << " function: numpy.cos(x) [Single Value]" << endl;
+        cout << " "+f.greentxt+"function: numpy.cos(x) [Single Value]"+f.none << endl;
         cout << " ----------------------" << endl;
         cout << " in-value: " << val << ", real: " << _f << endl;
         cout << " cos-value: " << retv << endl;
@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
     else if(func=="-cosvec") {
         string vals = argv[2];
         string cosvals = excos(vals);
-        cout << " function: numpy.cos(x) [C-vector]" << endl;
+        cout << " "+f.greentxt+"function: numpy.cos(x) [C-vector]"+f.none << endl;
         cout << " ----------------------" << endl;
         cout << " in-value(s): " << vals << endl;
         cout << " cos-value(s): " << cosvals << endl;
@@ -244,7 +244,7 @@ int main(int argc, char *argv[])
     }
     else if(func=="-pi") {
         string pret = to_string(cpy::Pi());
-        cout << " function: numpy.pi" << endl;
+        cout << " "+f.greentxt+"function: numpy.pi"+f.none << endl;
         cout << " ------------------" << endl;
         cout << " return: " << pret << endl;
     }
@@ -263,7 +263,7 @@ int main(int argc, char *argv[])
         float step = pypi_float(strstep);
         
         if(cpy::Plot(start,stop,step)) {
-            cout << " function: cpy::Plot() [mixed numpy-matplotlib.pyplot]" << endl;
+            cout << " "+f.greentxt+"function: cpy::Plot() [mixed numpy-matplotlib.pyplot]"+f.none << endl;
             cout << " -------------------------------" << endl;
             cout << " values used for rendering plot:" << endl;
             cout << " ---------" << endl;
@@ -274,7 +274,7 @@ int main(int argc, char *argv[])
         }
     }
     else if(func=="-rand") {
-        cout << " function: numpy.random.random" << endl;
+        cout << " "+f.greentxt+"function: numpy.random.random"+f.none << endl;
         cout << " -----------------------------" << endl;
         cout << " return: " << cpy::Random() << endl;
     }
@@ -282,7 +282,7 @@ int main(int argc, char *argv[])
         string val = argv[2];
         float _f = pypi_float(val);
         double retv = cpy::CST(_f,1);
-        cout << " function: numpy.sin(x) [Single Value]" << endl;
+        cout << " "+f.greentxt+"function: numpy.sin(x) [Single Value]"+f.none << endl;
         cout << " ----------------------" << endl;
         cout << " in-value: " << val << ", real: " << _f << endl;
         cout << " sin-value: " << retv << endl;    
@@ -291,7 +291,7 @@ int main(int argc, char *argv[])
         string val = argv[2];
         float _f = pypi_float(val);
         double retv = cpy::CST(_f,2);
-        cout << " function: numpy.tan(x) [Single Value]" << endl;
+        cout << " "+f.greentxt+"function: numpy.tan(x) [Single Value]"+f.none << endl;
         cout << " ----------------------" << endl;
         cout << " in-value: " << val << ", real: " << _f << endl;
         cout << " tan-value: " << retv << endl;    
