@@ -111,7 +111,7 @@ void print_matrix( char* desc, lapack_int m, lapack_int n, lapack_complex_float*
         printf( "\n %s\n", desc );
         for( i = 0; i < m; i++ ) {
                 for( j = 0; j < n; j++ )
-                        lcf = &a[i*lda+j];
+                        lcf = &a[j]; //&a[i*lda+j];
                         real = lcf[0];
                         imag = lcf[1];
                         printf("(%6.2f,%6.2f)",real,imag );
