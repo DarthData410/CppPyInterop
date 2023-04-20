@@ -294,6 +294,9 @@ namespace cpy {
     /// @param m C-NDMatrix object representing the general matrix to be operated upon
     /// @return returns a vector of complex<double>(s) representing real() and imag() eigenvalues.
     vector<complex<double>> EigVals(NDMatrix m) {
+        if(!m.square()) {
+            throw runtime_error("cpy::EigVals - NDMatrix must be square, for numpy.linalg.eigvals(x) operation.");
+        }
         vector<complex<double>> ret;
         PyObject *dplin = NDMat2PyList(m);
         PyObject *npla = modimp(NPLA);

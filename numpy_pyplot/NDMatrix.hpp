@@ -16,7 +16,8 @@ namespace cpy {
         vector<vector<double>> values;
         int rows;
         int cols;
-        string size;    
+        string size;
+        bool square;   
     } Matrix;
 
     /// @brief class used to house N-Dimensional Matrix values of doubles. Including base operations. Used with Python
@@ -97,6 +98,12 @@ namespace cpy {
             mat.rows = rows;
             mat.cols = cols;
             mat.size = to_string(rows) + "x" + to_string(cols);
+            if(rows==cols) {
+                mat.square = true;
+            }
+            else {
+                mat.square = false;
+            }
             clear();
         }
 
@@ -110,6 +117,12 @@ namespace cpy {
                 }
                 mat.values.push_back(vcols);
             }
+        }
+
+        /// @brief Function that exposes Matrix.square bool value
+        /// @return True if Matrix rows x cols create a square Matrix. False if not.
+        bool square() {
+            return mat.square;
         }
 
         /// @brief Sets double value at row x col for instance of NDMatrix
