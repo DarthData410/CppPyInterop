@@ -7,8 +7,13 @@
 using namespace std;
 using namespace complex_literals;
 
+extern "C" {
+     void dgeev_(int *n, int *nrhs,  double *a,  int  *lda,  
+           int *ipivot, double *b, int *ldb, int *info) ;
+}
+
 int main() {
-    LAPACK_dgeev()
+    
 
     return 0;
 }

@@ -1,0 +1,49 @@
+// ref(a): https://www.math.utah.edu/software/c-with-fortran.html
+
+/*
+ Fortran and C/C++ common data types
+
+For mixed-language programming in C/C++ and Fortran, only the minimal intersection of their many data types can be 
+relied on:
+
+    int == INTEGER,
+    float == REAL,
+    double == DOUBLE PRECISION.
+*************
+
+ Since two-dimensional arrays (matrices) are prevalent in most Fortran numerical libraries, the C/C++ user 
+ must be keenly aware of this difference. One solution is to wrap array-transposition code (an O(N^2) process) 
+ around calls to Fortran routines. Another is to program the C/C++ matrix code with reversed index order. 
+ A third, and often better, approach is to access the C/C++ matrix data through a C preprocessor macro, 
+ or C++ class access functions, to hide the index differences, and avoid unnecessary data movement. 
+ Thus, you could write
+
+#define A(i,j) a[j][i]
+
+and then use A(i,j) throughout your C code. 
+
+***************
+
+Fortran array indexing starts at one, while C/C++ indexing starts at zero. An N-by-N matrix is declared in 
+Fortran as typename A(N,N), and indexed from 1 to N, while a corresponding C/C++ array is declared as 
+typename a[N][N], but indexed from 0 to N-1. This feature of C/C++ is a frequent source of off-by-one errors, 
+and when you mix C/C++ code with Fortran, you are even more likely to be confused.
+
+If most of the matrix data access is in the Fortran code, then it may be best to write the C/C++ code as if the 
+arrays were Fortran arrays:
+
+#define B(i,j) b[j-1][i-1]
+
+void foo(void)
+{
+    ...
+    for (j = 1; j <= N; ++j)
+    {
+        for (i = 1; i <= N; ++i)
+        {
+            ... B(i,j) ...
+        }
+    }
+}
+
+*/
