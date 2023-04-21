@@ -2,3 +2,5 @@ numpy/cnumpy
 numpy_pyplot/cnumpy
 numpy_pyplot/cpynumplot
 numpy_pyplot/cpy
+lapack/dgels
+lapack_cpp/dgesv
