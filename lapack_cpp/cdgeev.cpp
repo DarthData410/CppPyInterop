@@ -1,14 +1,8 @@
 // ref(a): https://netlib.org/lapack/explore-html/d9/d8e/group__double_g_eeigen_ga66e19253344358f5dee1e60502b9e96f.html
 
-
 #include <iostream>
-#include <cmath>
-#include <complex>
-#include <vector>
 
 using namespace std;
-using namespace complex_literals;
-
 
 /*
     LAPACK->Fortran subroutine:
