@@ -4,6 +4,18 @@
 
 #include <iostream>
 
+/*
+   subroutine dgesv 	( 	integer  	N,
+		integer  	NRHS,
+		double precision, dimension( lda, * )  	A,
+		integer  	LDA,
+		integer, dimension( * )  	IPIV,
+		double precision, dimension( ldb, * )  	B,
+		integer  	LDB,
+		integer  	INFO 
+	) 	
+*/
+
 extern "C" {
      void dgesv_(int *n, int *nrhs,  double *a,  int  *lda,  
            int *ipivot, double *b, int *ldb, int *info) ;
@@ -24,6 +36,7 @@ int main(){
    int info;
    // Other values
    int i,j;
+
 
    // Read the values of the matrix
    std::cout << "Enter n \n";

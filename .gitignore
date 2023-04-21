@@ -4,3 +4,10 @@ numpy_pyplot/cpynumplot
 numpy_pyplot/cpy
 lapack/dgels
 lapack_cpp/dgesv
+lapack_cpp/2x2m.dat
+lapack_cpp/2x2m.idx
+lapack_cpp/3x3m.dat
+lapack_cpp/3x3m.idx
+lapack_cpp/cdgeev
+lapack_cpp/tlp
+lapack_cpp/tlp.cpp
