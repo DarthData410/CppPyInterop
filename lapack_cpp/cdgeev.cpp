@@ -120,7 +120,7 @@ int main() {
     */
     fortran_int info;
     
-    // 2x2 matrix, linerized:
+    // 2x2 matrix, linearized:
     // row[0]:
     a[0] = 0.1244;
     a[2] = 0.4412;
