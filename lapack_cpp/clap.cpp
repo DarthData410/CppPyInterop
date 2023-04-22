@@ -70,6 +70,24 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    double *lmd;
+    lmd = vp.matrix_data;
+
+    cout << endl;
+    cout << " dgeev - eigenvalues | clap::dgeev()" << endl;
+    cout << " -----------------------------------" << endl;
+    cout << " For file: " << fn << endl;
+    cout << " Matrix size: " << vp.rows << "x" << vp.cols << endl;
+    cout << " Linearized Matrix Data Used: " << endl;
+    cout << " [";
+    string lmds;
+    for(int i=0;i<(vp.rows*vp.cols);i++) {
+        lmds += to_string(lmd[i]);
+        lmds += ",";
+    }
+    lmds = lmds.substr(0,lmds.size()-1);
+    cout << lmds << "]" << endl;
+
     cout << " --- EIGVALS (clap::dgeev) ---" << endl;
     vector<complex<double>> eigvals = clap::dgeev(vp);
     for(complex<double> cd : eigvals) {
@@ -77,17 +95,7 @@ int main(int argc, char *argv[]) {
         cout << ":" << to_string(cd.imag()) << "] \n";
     }
 
-    cout << "\n For file: " << fn << endl;
-    cout << " Matrix size: " << vp.rows << "x" << vp.cols << endl;
-    cout << " Linearized Matrix Data Used: " << endl;
-    cout << " [";
-    string lmds;
-    for(int i=0;i<(vp.rows*vp.cols);i++) {
-        lmds += to_string(vp.matrix_data[i]);
-        lmds += ",";
-    }
-    lmds = lmds.substr(0,lmds.size()-1);
-    cout << lmds << "]" << endl;
+    
     
     return 0;
 }
