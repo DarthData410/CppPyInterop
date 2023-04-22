@@ -7,7 +7,7 @@
 // *****************************************************************************************************
 #include <iostream>
 #include <fstream>
-#include "clap.hpp"
+#include "include/clap.hpp"
 
 clap::dgeevparms dgeevparms_fromfile(string fn, string *fdata) {
     clap::dgeevparms ret;

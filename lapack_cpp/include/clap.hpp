@@ -5,8 +5,10 @@
 // exposing the same Fortran LAPACK subroutines, as extern "C" calls. Creating a comparable C++ set of
 // header files, allowing for comparison of Python numpy.linalg vs. C++, for specific LAPACK subroutines
 // *****************************************************************************************************
+// Header file used to combine clap::* function header files. Enabling a single point of include for
+// *.cpp app usage.
 
 #pragma once
 
-#include "sgeev.hpp"
-#include "dgeev.hpp"
+#include "functions/dgeev.hpp"
+#include "functions/sgeev.hpp"

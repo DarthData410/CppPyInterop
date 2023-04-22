@@ -9,7 +9,7 @@
 
 #include <vector>
 #include <complex>
-#include "f2clapack.hpp"
+#include "clapack.hpp"
 
 using namespace std;
 

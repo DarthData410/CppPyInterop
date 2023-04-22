@@ -5,6 +5,10 @@
 // exposing the same Fortran LAPACK subroutines, as extern "C" calls. Creating a comparable C++ set of
 // header files, allowing for comparison of Python numpy.linalg vs. C++, for specific LAPACK subroutines
 // *****************************************************************************************************
+// This file contains a single point for all extern "C" LAPACK Fortran subroutine reference points. 
+// clap::f2c::* functions are meant to be surfaced and called from corresponding C++ header file representations
+// of working with these lower level Fortran calls.
+
 #pragma once
 
 namespace clap::f2c {
@@ -21,6 +25,7 @@ namespace clap::f2c {
 
 
     extern "C" {
+        
         extern fortran_int dgeev_(char *jobvl, char *jobvr, fortran_int *n,
                     double *a, fortran_int *lda, double *wr, double *wi,
                     double *vl, fortran_int *ldvl, double *vr, fortran_int *ldvr,
