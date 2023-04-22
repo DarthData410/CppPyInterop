@@ -8,24 +8,23 @@
 #pragma once
 
 namespace clap::f2c {
-/*--------  typedefs  ------------*/
 
-typedef int         fortran_int;
+    typedef int         fortran_int;
 
-typedef struct { float r, i; } f2c_complex;
-typedef struct { double r, i; } f2c_doublecomplex;
+    typedef struct { float r, i; } f2c_complex;
+    typedef struct { double r, i; } f2c_doublecomplex;
 
-typedef float             fortran_real;
-typedef double            fortran_doublereal;
-typedef f2c_complex       fortran_complex;
-typedef f2c_doublecomplex fortran_doublecomplex;
+    typedef float             fortran_real;
+    typedef double            fortran_doublereal;
+    typedef f2c_complex       fortran_complex;
+    typedef f2c_doublecomplex fortran_doublecomplex;
 
 
-extern "C" {
-    extern fortran_int dgeev_(char *jobvl, char *jobvr, fortran_int *n,
-                double *a, fortran_int *lda, double *wr, double *wi,
-                double *vl, fortran_int *ldvl, double *vr, fortran_int *ldvr,
-                double *work, fortran_int *lwork,
-                fortran_int *info);
-    }
+    extern "C" {
+        extern fortran_int dgeev_(char *jobvl, char *jobvr, fortran_int *n,
+                    double *a, fortran_int *lda, double *wr, double *wi,
+                    double *vl, fortran_int *ldvl, double *vr, fortran_int *ldvr,
+                    double *work, fortran_int *lwork,
+                    fortran_int *info);
+        }
 }
