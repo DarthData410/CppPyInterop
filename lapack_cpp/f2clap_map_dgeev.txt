@@ -1,0 +1,11 @@
+Fortran LAPACK dgeev() subroutine explore notes:
+------------------------------------------------
+lapack->dgeev() : https://netlib.org/lapack/explore-html/d9/d8e/group__double_g_eeigen_ga66e19253344358f5dee1e60502b9e96f.html
+dgeev()->dhseqr() : https://netlib.org/lapack/explore-html/da/dba/group__double_o_t_h_e_rcomputational_gacb35e85b362ce8ccf9d653cc3f8fb89c.html#gacb35e85b362ce8ccf9d653cc3f8fb89c
+dhseqr()->dlaqr0() : https://netlib.org/lapack/explore-html/d8/d9b/group__double_o_t_h_e_rauxiliary_gaa0f06b236f313b54f85fed1b62c152dc.html#gaa0f06b236f313b54f85fed1b62c152dc
+dlaqr0()->dlahqr() : https://netlib.org/lapack/explore-html/d8/d9b/group__double_o_t_h_e_rauxiliary_gaa677995264e5de3914a3817a66e753c5.html#gaa677995264e5de3914a3817a66e753c5
+
+dlahqr() usages:
+----------------
+drot() : https://netlib.org/lapack/explore-html/de/da4/group__double__blas__level1_ga54d516b6e0497df179c9831f2554b1f9.html#ga54d516b6e0497df179c9831f2554b1f9
+
