@@ -1,43 +1,34 @@
-#include <iostream>
+// file: dgeev.hpp
+// author: J. Brandon George | darth.data410@gmail.com | @pyfryday
+// contents used for testing against C++ <-> Fortran-LAPACK interop. LAPACK is used by Python numpy 
+// module. This C++ app showcases the ability to retrieve the same functionality as numpy.linalg by
+// exposing the same Fortran LAPACK subroutines, as extern "C" calls. Creating a comparable C++ set of
+// header files, allowing for comparison of Python numpy.linalg vs. C++, for specific LAPACK subroutines
+// *****************************************************************************************************
+#pragma once
+
 #include <vector>
 #include <complex>
+#include "f2clapack.hpp"
 
 using namespace std;
 
-/*--------  typedefs  ------------*/
+namespace clap {
 
-typedef int         fortran_int;
+    using namespace f2c;
 
-typedef struct { float r, i; } f2c_complex;
-typedef struct { double r, i; } f2c_doublecomplex;
+    /// @brief Primaty structure used to pass data between Fortran dgeev subroutine that is part of LAPACK
+    /// and C++. Stores out values from dgeev_ in oreals and oimags respectively. 
+    typedef struct {
+        int cols;
+        int rows;
+        double *matrix_data;
+        double *oreals;
+        double *oimags;
+    } dgeevparms;
 
-typedef float             fortran_real;
-typedef double            fortran_doublereal;
-typedef f2c_complex       fortran_complex;
-typedef f2c_doublecomplex fortran_doublecomplex;
-
-/// @brief Primaty structure used to pass data between Fortran GEEV subroutine that is part of LAPACK
-/// and C++.
-typedef struct {
-    fortran_int cols;
-    fortran_int rows;
-    double *matrix_data;
-    double *oreals;
-    double *oimags;
-} EigValsParms;
-
-extern "C" {
-    extern fortran_int dgeev_(char *jobvl, char *jobvr, fortran_int *n,
-                double *a, fortran_int *lda, double *wr, double *wi,
-                double *vl, fortran_int *ldvl, double *vr, fortran_int *ldvr,
-                double *work, fortran_int *lwork,
-                fortran_int *info);
-    }
-
-namespace cla {
-
-    EigValsParms newEVParms(fortran_int cols, fortran_int rows) {
-        EigValsParms ret;
+    dgeevparms newdgeevparms(int cols, int rows) {
+        dgeevparms ret;
         ret.cols = cols;
         ret.rows = rows;
         ret.matrix_data = new double[ret.cols*ret.rows];
@@ -46,7 +37,7 @@ namespace cla {
         return ret;
     }
 
-    vector<complex<double>> EigVals(EigValsParms v) {
+    vector<complex<double>> dgeev(dgeevparms v) {
         vector<complex<double>> ret;
 
         char NO = 'N';
