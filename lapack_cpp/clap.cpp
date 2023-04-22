@@ -57,19 +57,85 @@ clap::dgeevparms dgeevparms_fromfile(string fn, string *fdata) {
     }
 }
 
+clap::sgeevparms sgeevparms_fromfile(string fn, string *fdata) {
+    clap::sgeevparms ret;
+    int rows,cols,idx;
+    float fd;
+    ifstream file(fn);
+    if(!file.is_open()) {
+        cout << " file: " << fn << " does not exit or could not be openned." << endl;
+        throw runtime_error("fatal error in opening matrix file. sgeevparms_fromfile().");
+    }
+    else {
+        
+        try
+        {
+            // retrieve rows x columns as expected format: 2 2, etc.
+            file >> rows;
+            fdata->append(to_string(rows));
+            fdata->append(" ");
+            file >> cols;
+            fdata->append(to_string(cols));
+            fdata->append(" ");
+            fdata->append("\n");
+            
+            // initialize clap::sgeevparms:
+            ret = clap::newsgeevparms(rows,cols);
+
+            // linearize, general square matrix data:
+            for(int x=0;x<rows;x++) {
+                for(int y=0;y<cols;y++) {
+                    file >> fd;
+                    fdata->append(to_string(fd));
+                    fdata->append(" ");
+                    idx = y*rows+x;
+                    ret.matrix_data[idx] = fd;
+                }
+                fdata->append("\n");
+            }
+
+            file.close();
+            return ret;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+            throw runtime_error("fatal error reading matrix file. sgeevparms_fromfile.");
+        } 
+    }
+}
+
+
 int main(int argc, char *argv[]) {
-    clap::dgeevparms vp;
-    string fn;
+    // params:
+    clap::dgeevparms dvp;
+    clap::sgeevparms svp;
+    string fn,func;
     string fdata;
-    if(argc<2) {
-        cout << " expected" << argv[0] << " <matrix filename>" << endl;
+    double *lmd;
+    float *lmf;
+    string lms;
+
+    if(argc<3) {
+        cout << " expected" << argv[0] << "-<func>(sgeev or dgeev) <matrix filename>" << endl;
         return 1;
     }
     else {
-        fn = argv[1];
+        
+        func = argv[1];
+        fn = argv[2];
+        
         try
         {
-            vp = dgeevparms_fromfile(fn,&fdata);
+            if(func=="-sgeev") {
+                svp = sgeevparms_fromfile(fn,&fdata);
+            }
+            else if(func=="-dgeev") {
+                dvp = dgeevparms_fromfile(fn,&fdata);
+            }
+            else {
+                throw runtime_error("./clap - invalid function.");
+            }
         }
         catch(const std::exception& e)
         {
@@ -78,8 +144,12 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    double *lmd;
-    lmd = vp.matrix_data;
+    if(func=="-dgeev") {
+        lmd = dvp.matrix_data;
+    }
+    else if(func=="-sgeev") {
+        lmf = svp.matrix_data;
+    }
     cout << endl;
     cout << " [./clap - C++ LAPACK Interop Examples]" << endl;
     cout << endl;
@@ -91,24 +161,49 @@ int main(int argc, char *argv[]) {
     cout << fdata << endl;
     cout << " --------------" << endl;
     cout << endl;
-    cout << " Matrix size: " << vp.rows << "x" << vp.cols << endl;
+    if(func=="-dgeev") {
+        cout << " Matrix size: " << dvp.rows << "x" << dvp.cols << endl;
+    }
+    else if(func=="-sgeev") {
+        cout << " Matrix size: " << svp.rows << "x" << svp.cols << endl;
+    }
     cout << " Linearized Matrix Data Used: " << endl;
     cout << " [";
-    string lmds;
-    for(int i=0;i<(vp.rows*vp.cols);i++) {
-        lmds += to_string(lmd[i]);
-        lmds += ",";
+    if(func=="-dgeev") {
+        
+        for(int i=0;i<(dvp.rows*dvp.cols);i++) {
+            lms += to_string(lmd[i]);
+            lms += ",";
+        }
+        lms = lms.substr(0,lms.size()-1);
     }
-    lmds = lmds.substr(0,lmds.size()-1);
-    cout << lmds << "]" << endl;
+    else if(func=="-sgeev") {
+        for(int i=0;i<(svp.rows*svp.cols);i++) {
+            lms += to_string(lmf[i]);
+            lms += ",";
+        }
+        lms = lms.substr(0,lms.size()-1);
+    }
+    cout << lms << "]" << endl;
 
     cout << endl;
-    cout << " --- EIGVALS (clap::dgeev) ---" << endl;
-    cout << " values = [real:imag]" << endl;
-    vector<complex<double>> eigvals = clap::dgeev(vp);
-    for(complex<double> cd : eigvals) {
-        cout << " [" << to_string(cd.real());
-        cout << ":" << to_string(cd.imag()) << "] \n";
+    if(func=="-dgeev") {
+        cout << " --- EIGVALS (clap::dgeev) ---" << endl;
+        cout << " values = [real:imag]" << endl;
+        vector<complex<double>> eigvals = clap::dgeev(dvp);
+        for(complex<double> cd : eigvals) {
+            cout << " [" << to_string(cd.real());
+            cout << ":" << to_string(cd.imag()) << "] \n";
+        }
+    }
+    else if(func=="-sgeev") {
+       cout << " --- EIGVALS (clap::sgeev) ---" << endl;
+        cout << " values = [real:imag]" << endl;
+        vector<complex<float>> eigvals = clap::sgeev(svp);
+        for(complex<float> cf : eigvals) {
+            cout << " [" << to_string(cf.real());
+            cout << ":" << to_string(cf.imag()) << "] \n";
+        } 
     }
 
     cout << endl;

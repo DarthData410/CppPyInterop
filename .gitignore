@@ -2,11 +2,7 @@ numpy/cnumpy
 numpy_pyplot/cnumpy
 numpy_pyplot/cpynumplot
 numpy_pyplot/cpy
-lapack/dgels
 lapack_cpp/dgesv
 lapack_cpp/cdgeev
-lapack_cpp/tlp
-lapack_cpp/tlp.cpp
-lapack_cpp/cla
 lapack_cpp/clap
-lapack_cpp/clap
+

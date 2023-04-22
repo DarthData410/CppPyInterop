@@ -26,5 +26,11 @@ namespace clap::f2c {
                     double *vl, fortran_int *ldvl, double *vr, fortran_int *ldvr,
                     double *work, fortran_int *lwork,
                     fortran_int *info);
+        
+        extern fortran_int sgeev_(char *jobvl, char *jobvr, fortran_int *n,
+                    fortran_real *a, fortran_int *lda, fortran_real *wr, fortran_real *wi,
+                    fortran_real *vl, fortran_int *ldvl, fortran_real *vr, fortran_int *ldvr,
+                    fortran_real *work, fortran_int *lwork,
+                    fortran_int *info); 
         }
 }
