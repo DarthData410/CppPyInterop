@@ -117,7 +117,7 @@ int main(int argc, char *argv[]) {
     string lms;
 
     if(argc<3) {
-        cout << " expected" << argv[0] << "-<func>(sgeev or dgeev) <matrix filename>" << endl;
+        cout << " expected: " << argv[0] << " -<func>(sgeev or dgeev) <matrix filename>" << endl;
         return 1;
     }
     else {
@@ -153,7 +153,7 @@ int main(int argc, char *argv[]) {
     cout << endl;
     cout << " [./clap - C++ LAPACK Interop Examples]" << endl;
     cout << endl;
-    cout << " dgeev - eigenvalues | clap::dgeev()" << endl;
+    cout << " dgeev - eigenvalues | " << argv[0] << " " << func << endl;
     cout << " -----------------------------------" << endl;
     cout << " For file: " << fn << endl;
     cout << " File Contents:" << endl;
