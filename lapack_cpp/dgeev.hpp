@@ -26,15 +26,15 @@ typedef struct {
     double *oimags;
 } EigValsParms;
 
-namespace cla {
-
-    extern "C" {
+extern "C" {
     extern fortran_int dgeev_(char *jobvl, char *jobvr, fortran_int *n,
                 double *a, fortran_int *lda, double *wr, double *wi,
                 double *vl, fortran_int *ldvl, double *vr, fortran_int *ldvr,
                 double *work, fortran_int *lwork,
                 fortran_int *info);
     }
+
+namespace cla {
 
     EigValsParms newEVParms(fortran_int cols, fortran_int rows) {
         EigValsParms ret;
@@ -61,7 +61,7 @@ namespace cla {
         double *work = new double[lwork];
         fortran_int info;
 
-        cla::dgeev_(&NO,&NO,&v.cols,v.matrix_data,&lda,v.oreals,v.oimags,vl,&ldvl,vr,&ldvr,work,&lwork,&info);
+        dgeev_(&NO,&NO,&v.cols,v.matrix_data,&lda,v.oreals,v.oimags,vl,&ldvl,vr,&ldvr,work,&lwork,&info);
         
         if(info!=0) {
             throw runtime_error("invalid work/argument issue with cla::dgeev_ fortran call. check matrix data.");

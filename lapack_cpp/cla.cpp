@@ -14,6 +14,6 @@ int main() {
         cout << " [" << to_string(cd.real());
         cout << ":" << to_string(cd.imag()) << "] \n";
     }
-
+    
     return 0;
 }
