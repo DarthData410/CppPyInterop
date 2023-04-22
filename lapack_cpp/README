@@ -1,0 +1,25 @@
+# lapack_cpp -./clap
+By: J. Brandon George | darth.data410@gmail.com | twitter: @PyFryDay | medium.com: https://darth-data410.medium.com/ | youtube: https://www.youtube.com/@pyfryday
+
+# Details
+This sub-project of the greater CppPyInterop repo is used to showcase the interop between C/C++ and Fortran LAPACK (Linear Algebra PACKage) https://netlib.org/lapack/. 
+
+/include/clap.hpp contains what is needed in order for a C++ application to surface eigenvalues of a general, square (linearized) matrix of either doubles (dgeev) or floats (sgeev). The clap.cpp builds to a g++ targeted linux application that when executed, expects the following usage:
+
+./clap -dgeev data/2x2m.dat (OR) ./clap -sgeev data/3x3m.dat
+
+Where the first argument is the function of either dgeev, for the eigenvalues of a square, general matrix, or the function sgeev which performs near same logic excepts operates off of floats vs. doubles. Percision then becomes the driving point of which to use. 
+
+The scope of work contained within this sub-project, was created in order to re-create and better understand what numpy.lingalg.eigvals(x) within Python really does. In reviewing the source code behind numpy.lingalg, and specifically numpy.linalg.eigvals, one will see that the power behind the calculations is actually the Fortran version of LAPACK, surfaced as cpp code. (ie: https://github.com/numpy/numpy/blob/v1.24.0/numpy/linalg/umath_linalg.cpp)
+
+If you compile and execute clap, you will see that you can compare the results of working with clap, eigenvalues as well as the folder /py/npeigvals.py that allows for an "apples-to-apples" comparison of work performed and values generated. 
+
+The execution of both the clap::dgeev or clap::sgeev run just as the numpy.linalg.eigvals(x) runs with Python. The /data/*.dat files are example matrix data to-be-used with clap. These can easily be used with the /py/npeigvals.py to prove returned results. 
+
+# Important
+The Fortran LAPACK package and its subroutines are implemented across a braod range of applications, modules, and exposed by other languages, wrapped as needed, like NumPy does, with its linalg submodule. Further of note, there is a LAPACKE which is a C interface to LAPACK. You can find more information about that, and its usage located here: https://netlib.org/lapack/lapacke.html
+
+For the purposes of this work being completed, it was important to build out C++ scope that mirrored the NumPy implementation. To that end, the build task (task.json in the .vscode folder of this sub-project) contain references for important linking for g++ to build with. In order to work with the Fortran subroutines on my Ubuntu instance, I had to install:
+
+sudo apt-get install liblapack-dev
+The version I used at the time of creation is: (3.10.0-2ubuntu1).
