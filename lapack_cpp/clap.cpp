@@ -9,7 +9,7 @@
 #include <fstream>
 #include "clap.hpp"
 
-clap::dgeevparms dgeevparms_fromfile(string fn) {
+clap::dgeevparms dgeevparms_fromfile(string fn, string *fdata) {
     clap::dgeevparms ret;
     int rows,cols,idx;
     double fd;
@@ -24,7 +24,12 @@ clap::dgeevparms dgeevparms_fromfile(string fn) {
         {
             // retrieve rows x columns as expected format: 2 2, etc.
             file >> rows;
+            fdata->append(to_string(rows));
+            fdata->append(" ");
             file >> cols;
+            fdata->append(to_string(cols));
+            fdata->append(" ");
+            fdata->append("\n");
             
             // initialize clap::dgeevparms:
             ret = clap::newdgeevparms(rows,cols);
@@ -33,9 +38,12 @@ clap::dgeevparms dgeevparms_fromfile(string fn) {
             for(int x=0;x<rows;x++) {
                 for(int y=0;y<cols;y++) {
                     file >> fd;
+                    fdata->append(to_string(fd));
+                    fdata->append(" ");
                     idx = y*rows+x;
                     ret.matrix_data[idx] = fd;
                 }
+                fdata->append("\n");
             }
 
             file.close();
@@ -52,7 +60,7 @@ clap::dgeevparms dgeevparms_fromfile(string fn) {
 int main(int argc, char *argv[]) {
     clap::dgeevparms vp;
     string fn;
-
+    string fdata;
     if(argc<2) {
         cout << " expected" << argv[0] << " <matrix filename>" << endl;
         return 1;
@@ -61,7 +69,7 @@ int main(int argc, char *argv[]) {
         fn = argv[1];
         try
         {
-            vp = dgeevparms_fromfile(fn);
+            vp = dgeevparms_fromfile(fn,&fdata);
         }
         catch(const std::exception& e)
         {
@@ -72,11 +80,17 @@ int main(int argc, char *argv[]) {
 
     double *lmd;
     lmd = vp.matrix_data;
-
+    cout << endl;
+    cout << " [./clap - C++ LAPACK Interop Examples]" << endl;
     cout << endl;
     cout << " dgeev - eigenvalues | clap::dgeev()" << endl;
     cout << " -----------------------------------" << endl;
     cout << " For file: " << fn << endl;
+    cout << " File Contents:" << endl;
+    cout << " --------------" << endl;
+    cout << fdata << endl;
+    cout << " --------------" << endl;
+    cout << endl;
     cout << " Matrix size: " << vp.rows << "x" << vp.cols << endl;
     cout << " Linearized Matrix Data Used: " << endl;
     cout << " [";
@@ -88,14 +102,16 @@ int main(int argc, char *argv[]) {
     lmds = lmds.substr(0,lmds.size()-1);
     cout << lmds << "]" << endl;
 
+    cout << endl;
     cout << " --- EIGVALS (clap::dgeev) ---" << endl;
+    cout << " values = [real:imag]" << endl;
     vector<complex<double>> eigvals = clap::dgeev(vp);
     for(complex<double> cd : eigvals) {
         cout << " [" << to_string(cd.real());
         cout << ":" << to_string(cd.imag()) << "] \n";
     }
 
-    
+    cout << endl;
     
     return 0;
 }
