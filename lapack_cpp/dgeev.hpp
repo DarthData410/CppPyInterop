@@ -15,8 +15,6 @@ using namespace std;
 
 namespace clap {
 
-    using namespace f2c;
-
     /// @brief Primaty structure used to pass data between Fortran dgeev subroutine that is part of LAPACK
     /// and C++. Stores out values from dgeev_ in oreals and oimags respectively. 
     typedef struct {
@@ -27,12 +25,12 @@ namespace clap {
         double *oimags;
     } dgeevparms;
 
-    dgeevparms newdgeevparms(int cols, int rows) {
+    dgeevparms newdgeevparms(int rows, int cols) {
         dgeevparms ret;
-        ret.cols = cols;
         ret.rows = rows;
-        ret.matrix_data = new double[ret.cols*ret.rows];
-        ret.oreals = new double[ret.cols];
+        ret.cols = cols;
+        ret.matrix_data = new double[ret.rows*ret.cols];
+        ret.oreals = new double[ret.rows];
         ret.oimags = new double[ret.rows];
         return ret;
     }
@@ -41,18 +39,18 @@ namespace clap {
         vector<complex<double>> ret;
 
         char NO = 'N';
-        fortran_int lda = v.cols;
+        f2c::fortran_int lda = v.cols;
         // unsed for current implemenation, does not return
         // left or right vectors:
         double *vl;
         double *vr;
-        fortran_int ldvl=1,ldvr=1;
+        f2c::fortran_int ldvl=1,ldvr=1;
         // ************************
-        fortran_int lwork = 6*v.cols;
+        f2c::fortran_int lwork = 6*v.cols;
         double *work = new double[lwork];
-        fortran_int info;
+        f2c::fortran_int info;
 
-        dgeev_(&NO,&NO,&v.cols,v.matrix_data,&lda,v.oreals,v.oimags,vl,&ldvl,vr,&ldvr,work,&lwork,&info);
+        f2c::dgeev_(&NO,&NO,&v.cols,v.matrix_data,&lda,v.oreals,v.oimags,vl,&ldvl,vr,&ldvr,work,&lwork,&info);
         
         if(info!=0) {
             throw runtime_error("invalid work/argument issue with cla::dgeev_ fortran call. check matrix data.");
