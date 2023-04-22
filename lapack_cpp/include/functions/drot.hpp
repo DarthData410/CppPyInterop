@@ -5,6 +5,8 @@
 // exposing the same Fortran LAPACK subroutines, as extern "C" calls. Creating a comparable C++ set of
 // header files, allowing for comparison of Python numpy.linalg vs. C++, for specific LAPACK subroutines
 // *****************************************************************************************************
+// reference: https://netlib.org/lapack/explore-html/d8/d9b/group__double_o_t_h_e_rauxiliary_gaa677995264e5de3914a3817a66e753c5.html#gaa677995264e5de3914a3817a66e753c5
+
 #pragma once
 
 #include <vector>
