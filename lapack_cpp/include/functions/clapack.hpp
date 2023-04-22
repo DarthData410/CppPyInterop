@@ -37,5 +37,10 @@ namespace clap::f2c {
                     fortran_real *vl, fortran_int *ldvl, fortran_real *vr, fortran_int *ldvr,
                     fortran_real *work, fortran_int *lwork,
                     fortran_int *info); 
+
+        /* --- lower level LAPACK subroutines used by dgeev, sgeev, etc. --- */
+        extern void drot_(fortran_int *n, double *dx, fortran_int *incx, double *dy, fortran_int *incy,
+                    double *c, double *s);
+
         }
 }

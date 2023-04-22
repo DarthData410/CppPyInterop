@@ -105,7 +105,6 @@ clap::sgeevparms sgeevparms_fromfile(string fn, string *fdata) {
     }
 }
 
-
 int main(int argc, char *argv[]) {
     // params:
     clap::dgeevparms dvp;
@@ -121,7 +120,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     else {
-        
+
         func = argv[1];
         fn = argv[2];
         
@@ -195,6 +194,9 @@ int main(int argc, char *argv[]) {
             cout << " [" << to_string(cd.real());
             cout << ":" << to_string(cd.imag()) << "] \n";
         }
+        delete [] dvp.matrix_data;
+        delete [] dvp.oimags;
+        delete [] dvp.oreals;
     }
     else if(func=="-sgeev") {
        cout << " --- EIGVALS (clap::sgeev) ---" << endl;
@@ -204,6 +206,9 @@ int main(int argc, char *argv[]) {
             cout << " [" << to_string(cf.real());
             cout << ":" << to_string(cf.imag()) << "] \n";
         } 
+        delete [] svp.matrix_data;
+        delete [] svp.oimags;
+        delete [] svp.oreals;
     }
 
     cout << endl;
