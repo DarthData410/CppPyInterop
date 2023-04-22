@@ -18,8 +18,8 @@ using namespace std;
 
 namespace clap {
 
-    /// @brief Primaty structure used to pass data between Fortran dgeev subroutine that is part of LAPACK
-    /// and C++. Stores out values from dgeev_ in oreals and oimags respectively. 
+    /// @brief Primaty structure used to pass data between Fortran drot subroutine that is part of LAPACK
+    /// and C++. Stores out values from drot_. 
     typedef struct {
         int cols;
         int rows;
@@ -47,7 +47,6 @@ namespace clap {
         f2c::fortran_int sp = 1; // storage spacing for incx & y
         double c=v.rows,s=v.cols;
 
-        //f2c::dgeev_(&NO,&NO,&v.cols,v.matrix_data,&lda,v.oreals,v.oimags,vl,&ldvl,vr,&ldvr,work,&lwork,&info);
         f2c::drot_(&n,v.datax,&sp,v.datay,&sp,&c,&s);
         
         for(int i=0;i<n;i++) {
