@@ -152,7 +152,7 @@ int main(int argc, char *argv[]) {
     cout << endl;
     cout << " [./clap - C++ LAPACK Interop Examples]" << endl;
     cout << endl;
-    cout << " dgeev - eigenvalues | " << argv[0] << " " << func << endl;
+    cout << " eigenvalues | " << argv[0] << " " << func << endl;
     cout << " -----------------------------------" << endl;
     cout << " For file: " << fn << endl;
     cout << " File Contents:" << endl;
