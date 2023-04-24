@@ -55,7 +55,7 @@ namespace clap {
         f2c::sgeev_(&NO,&NO,&v.cols,v.matrix_data,&lda,v.oreals,v.oimags,vl,&ldvl,vr,&ldvr,work,&lwork,&info);
         
         if(info!=0) {
-            throw runtime_error("invalid work/argument issue with cla::dgeev_ fortran call. check matrix data.");
+            throw runtime_error("invalid work/argument issue with cla::sgeev_ fortran call. check matrix data.");
         }
         else {
             for(int i=0;i<v.cols;i++) {
