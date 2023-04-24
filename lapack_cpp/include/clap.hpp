@@ -12,4 +12,3 @@
 
 #include "functions/dgeev.hpp"
 #include "functions/sgeev.hpp"
-#include "functions/drot.hpp"
