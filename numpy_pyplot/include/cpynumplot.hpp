@@ -2,6 +2,8 @@
 // author: J. Brandon George | darth.data410@gmail.com | @pyfryday
 // contents used for testing against C++ <-> Python interop, using Python.h from within C++ apps.
 // *****************************************************************************************************
+#pragma once
+
 #include <algorithm>
 #include <complex>
 #include <iostream>
@@ -72,7 +74,7 @@ namespace cpy {
             return program;
         }
         catch(...) {
-            throw runtime_error(("%s fata error trying to call Py_Initialize. check Python install."));
+            throw runtime_error(("%s fatal error trying to call Py_Initialize. check Python install."));
         }
     }
 

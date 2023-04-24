@@ -2,6 +2,8 @@
 // author: J. Brandon George | darth.data410@gmail.com | @pyfryday
 // contents used for testing against C++ <-> Python interop, using Python.h from within C++ apps.
 // *****************************************************************************************************
+#pragma once
+
 #include <iostream>
 #include <string>
 
