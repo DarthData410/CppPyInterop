@@ -45,15 +45,19 @@ print(naev)
     [-0.34330846  0.91150846]
 """
 
+# *******************************************
+
 """
     Test two:
-    ./cla - cla.cpp - dgeev.hpp
-    vp.matrix_data[0] = 1.23;
-    vp.matrix_data[2] = 0.081;
-    vp.matrix_data[1] = 0.44;
-    vp.matrix_data[3] = 0.13287;
-
-    ./cla output:
+    ./clap -dgeev 2x2m.dat 
+    ----------------------
+    File contents:
+    ----------------------
+    2 2
+    1.23 0.081
+    0.44 0.13287
+    
+    ./clap output:
     --- EIGVALS ---
     [1.261576:0.000000] 
     [0.101294:0.000000] 
