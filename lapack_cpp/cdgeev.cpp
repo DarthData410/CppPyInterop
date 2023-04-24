@@ -1,3 +1,12 @@
+// file: cdgeev.cpp
+// author: J. Brandon George | darth.data410@gmail.com | @pyfryday
+// contents used for testing against C++ <-> Fortran-LAPACK interop. LAPACK is used by Python numpy 
+// module. This C++ app showcases the ability to retrieve the same functionality as numpy.linalg by
+// exposing the same Fortran LAPACK subroutines, as extern "C" calls. Creating a comparable C++ set of
+// header files, allowing for comparison of Python numpy.linalg vs. C++, for specific LAPACK subroutines
+// *****************************************************************************************************
+// File used to map out LAPACK dgeev subroutine to C/C++ with hardcoded matrix value of 2x2 size.
+// 
 // ref(a): https://netlib.org/lapack/explore-html/d9/d8e/group__double_g_eeigen_ga66e19253344358f5dee1e60502b9e96f.html
 
 #include <iostream>
@@ -28,7 +37,6 @@ typedef int         fortran_int;
 
 typedef struct { float r, i; } f2c_complex;
 typedef struct { double r, i; } f2c_doublecomplex;
-/* typedef long int (*L_fp)(); */
 
 typedef float             fortran_real;
 typedef double            fortran_doublereal;
